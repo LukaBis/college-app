@@ -14,14 +14,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            CourseSeeder::class,
+            RoleSeeder::class,
+        ]);
+
         $user = User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'), // Replace with a secure password
         ]);
 
-        $this->call([
-            CourseSeeder::class,
-        ]);
+        $user->assignRole('super-admin');
     }
 }
