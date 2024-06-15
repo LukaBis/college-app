@@ -27,6 +27,9 @@ class CourseResource extends Resource
                     ->relationship('courseAdmin', 'name')
                     ->searchable()
                     ->preload(),
+                Forms\Components\FileUpload::make('student_files')
+                    ->disk('student-files')
+                    ->label('Upload Student Files'),
             ]);
     }
 
