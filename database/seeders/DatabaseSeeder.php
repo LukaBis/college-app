@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CourseSeeder::class,
             RoleSeeder::class,
+            PermissionsSeeder::class,
         ]);
 
         $user = User::create([
@@ -25,6 +26,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'), // Replace with a secure password
         ]);
 
-        $user->assignRole('super-admin');
+        $user->assignRole('Super Admin');
     }
 }

@@ -48,6 +48,6 @@ class User extends Authenticatable
 
     public function course(): HasOne
     {
-        return $this->hasOne(Course::class, 'id', 'course_id');
+        return $this->hasOne(Course::class, 'course_admin_id');
     }
 }

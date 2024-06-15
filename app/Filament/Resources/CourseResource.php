@@ -22,6 +22,11 @@ class CourseResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
+                Forms\Components\Select::make('course_admin_id')
+                    ->label('Course Admin')
+                    ->relationship('courseAdmin', 'name')
+                    ->searchable()
+                    ->preload(),
             ]);
     }
 
@@ -47,7 +52,7 @@ class CourseResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\CourseAdminRelationManager::class,
+            //
         ];
     }
 
