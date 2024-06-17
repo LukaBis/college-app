@@ -8,6 +8,8 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Spatie\Permission\Models\Role;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 
 class StudentsRelationManager extends RelationManager
 {
@@ -36,11 +38,15 @@ class StudentsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('email')->searchable(),
+                Tables\Columns\BooleanColumn::make('active'),
             ])
             ->filters([
-                //
+                Filter::make('active')
+                    ->query(fn (Builder $query): Builder => $query->where('active', true)),
+                Filter::make('non-active')
+                    ->query(fn (Builder $query): Builder => $query->where('active', false)),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
