@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
+use App\Models\Project;
 use Illuminate\Database\Seeder;
 
 class CourseSeeder extends Seeder
@@ -12,6 +13,10 @@ class CourseSeeder extends Seeder
      */
     public function run(): void
     {
-        Course::factory(5)->create();
+        Course::factory(5)->create()->each(function ($course) {
+            Project::factory(3)->create([
+                'course_id' => $course->id,
+            ]);
+        });
     }
 }

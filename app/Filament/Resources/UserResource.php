@@ -26,7 +26,11 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\TextInput::make('email')->email()->required(),
-                Forms\Components\TextInput::make('password')->password()->required(),
+                Forms\Components\TextInput::make('password')->password()
+                    ->password()
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create'),
                 Forms\Components\TextInput::make('jmbag'),
                 Forms\Components\Toggle::make('active')->required()->disabled(!$canUpdateActive),
                 Forms\Components\Select::make('roles')->preload()->relationship('roles', 'name'),

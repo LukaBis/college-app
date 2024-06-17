@@ -2,19 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CourseResource\Pages;
-use App\Filament\Resources\CourseResource\RelationManagers;
 use App\Filament\Resources\CourseResource\RelationManagers\ProjectsRelationManager;
-use App\Models\Course;
+use App\Filament\Resources\ProjectResource\Pages;
+use App\Filament\Resources\ProjectResource\RelationManagers;
+use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CourseResource extends Resource
+class ProjectResource extends Resource
 {
-    protected static ?string $model = Course::class;
+    protected static ?string $model = Project::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,16 +25,6 @@ class CourseResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
-                Forms\Components\Select::make('course_admin_id')
-                    ->label('Course Admin')
-                    ->relationship('courseAdmin', 'name')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\FileUpload::make('student_file')
-                    ->disk('student-files')
-                    ->label('Upload Student Files')
-                    ->acceptedFileTypes(['text/csv', 'text/plain']),
-                Forms\Components\TextInput::make('max_students')->numeric()->required(),
             ]);
     }
 
@@ -58,17 +50,16 @@ class CourseResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\StudentsRelationManager::class,
-            ProjectsRelationManager::class,
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCourses::route('/'),
-            'create' => Pages\CreateCourse::route('/create'),
-            'edit' => Pages\EditCourse::route('/{record}/edit'),
+            'index' => Pages\ListProjects::route('/'),
+            'create' => Pages\CreateProject::route('/create'),
+            'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
     }
 }
