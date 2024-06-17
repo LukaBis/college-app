@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -18,13 +19,16 @@ class UserResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $user = Auth::user();
+        $canUpdateActive = Auth::user()->can('updateActive', $user);
+
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\TextInput::make('email')->email()->required(),
                 Forms\Components\TextInput::make('password')->password()->required(),
                 Forms\Components\TextInput::make('jmbag'),
-                Forms\Components\Toggle::make('active')->required(),
+                Forms\Components\Toggle::make('active')->required()->disabled(!$canUpdateActive),
                 Forms\Components\Select::make('roles')->preload()->relationship('roles', 'name'),
             ]);
     }

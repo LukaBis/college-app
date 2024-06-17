@@ -19,7 +19,9 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('view User') && $user->id === $model->id;
+        $isCorresspondingCourseAdmin = $user->course->id === $model->attendingCourse->id;
+
+        return $user->checkPermissionTo('view User') && ($user->id === $model->id || $isCorresspondingCourseAdmin);
     }
 
     /**
@@ -35,7 +37,17 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('update User') && $user->id === $model->id;
+        $isCorresspondingCourseAdmin = $model->attendingCourse()->get()->contains($user->course);
+
+        return $user->checkPermissionTo('update User') && ($user->id === $model->id || $isCorresspondingCourseAdmin);
+    }
+
+    /**
+     * Determine if user can mark student as active or not active.
+     */
+    public function updateActive(User $user, User $model)
+    {
+        return $user->hasRole('Course Admin');
     }
 
     /**
