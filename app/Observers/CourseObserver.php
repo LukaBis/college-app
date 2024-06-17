@@ -79,6 +79,7 @@ class CourseObserver
             $student = User::create([
                 'name' => $student['fullName'],
                 'email' => $student['email'],
+                'jmbag' => $student['jmbag'],
                 'password' => Hash::make(config('students.default-password'))
             ]);
 

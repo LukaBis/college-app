@@ -23,6 +23,8 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\TextInput::make('email')->email()->required(),
                 Forms\Components\TextInput::make('password')->password()->required(),
+                Forms\Components\TextInput::make('jmbag'),
+                Forms\Components\Toggle::make('active')->required(),
                 Forms\Components\Select::make('roles')->preload()->relationship('roles', 'name'),
             ]);
     }
