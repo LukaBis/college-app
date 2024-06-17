@@ -4,10 +4,9 @@ namespace App\Observers;
 
 use App\Models\Course;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 use App\Services\CsvService;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Storage;
 
 class CourseObserver
 {
@@ -60,13 +59,11 @@ class CourseObserver
     }
 
     /**
-     * @param Course $course
-     * @return void
      * @throws \Exception
      */
     public function createNewStudents(Course $course): void
     {
-        if (!Storage::disk('student-files')->exists($course->student_file)) {
+        if (! Storage::disk('student-files')->exists($course->student_file)) {
             return;
         }
 
@@ -76,11 +73,16 @@ class CourseObserver
         $csvService->validate();
 
         foreach ($csvService->getItems() as $student) {
+
+            if ($course->students()->count() === $course->max_students) {
+                return;
+            }
+
             $student = User::create([
                 'name' => $student['fullName'],
                 'email' => $student['email'],
                 'jmbag' => $student['jmbag'],
-                'password' => Hash::make(config('students.default-password'))
+                'password' => Hash::make(config('students.default-password')),
             ]);
 
             $student->assignRole('Student');

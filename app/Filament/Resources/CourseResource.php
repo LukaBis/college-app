@@ -31,6 +31,7 @@ class CourseResource extends Resource
                     ->disk('student-files')
                     ->label('Upload Student Files')
                     ->acceptedFileTypes(['text/csv', 'text/plain']),
+                Forms\Components\TextInput::make('max_students')->numeric()->required(),
             ]);
     }
 

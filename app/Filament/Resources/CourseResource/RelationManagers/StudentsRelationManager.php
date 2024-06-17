@@ -4,12 +4,13 @@ namespace App\Filament\Resources\CourseResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Spatie\Permission\Models\Role;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\Permission\Models\Role;
 
 class StudentsRelationManager extends RelationManager
 {
@@ -49,7 +50,20 @@ class StudentsRelationManager extends RelationManager
                     ->query(fn (Builder $query): Builder => $query->where('active', false)),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $course = $this->getOwnerRecord();
+                        if ($course->students()->count() >= $course->max_students) {
+                            Notification::make()
+                                ->title('Error')
+                                ->body('The maximum number of students for this course has been reached.')
+                                ->danger()
+                                ->send();
+                            abort(403, 'The maximum number of students for this course has been reached.');
+                        }
+
+                        return $data;
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
