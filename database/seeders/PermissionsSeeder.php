@@ -24,6 +24,7 @@ class PermissionsSeeder extends Seeder
         $models = [
             'Course',
             'User',
+            'Project',
         ];
 
         foreach ($permissions as $permission) {

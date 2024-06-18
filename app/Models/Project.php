@@ -13,9 +13,11 @@ class Project extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function course(): BelongsTo
     {
-        $this->belongsTo(Course::class, 'course_id');
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     public function students(): HasMany

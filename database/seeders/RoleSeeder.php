@@ -25,5 +25,7 @@ class RoleSeeder extends Seeder
         $courseAdmin->givePermissionTo('update User');
         $courseAdmin->givePermissionTo('create User');
         $courseAdmin->givePermissionTo('delete User');
+        $courseAdmin->givePermissionTo('view Project');
+        $courseAdmin->givePermissionTo('update Project');
     }
 }
