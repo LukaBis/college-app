@@ -28,6 +28,7 @@ class User extends Authenticatable
         'password',
         'jmbag',
         'active',
+        'team_lead',
     ];
 
     /**

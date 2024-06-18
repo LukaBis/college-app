@@ -22,8 +22,9 @@ class ProjectPolicy
     public function view(User $user, Project $project): bool
     {
         $courseAdmin = $user->course->id === $project->course->id;
+        $student = $user->attendingCourse()->get()->contains($project->course);
 
-        return $user->checkPermissionTo('view Project') && $courseAdmin;
+        return $user->checkPermissionTo('view Project') && ($courseAdmin | $student);
     }
 
     /**
@@ -39,9 +40,15 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        $courseAdmin = $user->course->id === $project->course->id;
+        $courseAdmin = false;
 
-        return $user->checkPermissionTo('update Project') && $courseAdmin;
+        if ($user->course !== null) {
+            $courseAdmin = $user->course->id === $project->course->id;
+        }
+
+        $student = $user->attendingCourse()->get()->contains($project->course);
+
+        return $user->checkPermissionTo('update Project') && ($courseAdmin | $student);
     }
 
     /**

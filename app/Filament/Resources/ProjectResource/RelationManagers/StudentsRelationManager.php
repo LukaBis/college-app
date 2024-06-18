@@ -32,6 +32,7 @@ class StudentsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('jmbag'),
+                Tables\Columns\BooleanColumn::make('team_lead'),
             ])
             ->filters([
                 //
