@@ -21,7 +21,12 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        $courseAdmin = $user->course->id === $project->course->id;
+        $courseAdmin = false;
+
+        if ($user->course) {
+            $courseAdmin = $user->course->id === $project->course->id;
+        }
+
         $student = $user->attendingCourse()->get()->contains($project->course);
 
         return $user->checkPermissionTo('view Project') && ($courseAdmin | $student);
