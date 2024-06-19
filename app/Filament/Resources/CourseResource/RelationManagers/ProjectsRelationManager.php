@@ -38,7 +38,7 @@ class ProjectsRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->url(fn ($record) => '/admin/projects/'.$record->id.'/edit'),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ViewAction::make()->url(fn ($record) => '/admin/projects/'.$record->id)
             ])

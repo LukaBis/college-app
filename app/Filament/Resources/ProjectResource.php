@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Tabs;
 
 class ProjectResource extends Resource
 {
@@ -25,13 +26,22 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')->required(),
-                Forms\Components\TextInput::make('description')->required(),
-                Forms\Components\FileUpload::make('team_declaration')
-                    ->disk('team-declarations')
-                    ->label('Upload Team Declaration')
-                    ->acceptedFileTypes(['application/pdf'])
-                    ->openable(),
+                Tabs::make('Tabs')
+                    ->tabs([
+                        Tabs\Tab::make('About')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')->required(),
+                                Forms\Components\TextInput::make('description')->required(),
+                            ]),
+                        Tabs\Tab::make('Documentation')
+                            ->schema([
+                                Forms\Components\FileUpload::make('team_declaration')
+                                    ->disk('team-declarations')
+                                    ->label('Upload Team Declaration')
+                                    ->acceptedFileTypes(['application/pdf'])
+                                    ->openable(),
+                            ]),
+                    ])->columnSpanFull()
             ]);
     }
 
