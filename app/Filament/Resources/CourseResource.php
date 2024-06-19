@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class CourseResource extends Resource
 {
@@ -50,9 +51,19 @@ class CourseResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    //
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        if (auth()->user()->hasRole('Super Admin')) {
+            return Course::query();
+        }
+
+        // Ensure that only the courses of the authenticated user are fetched
+        return parent::getEloquentQuery()->where('course_admin_id', auth()->id());
     }
 
     public static function getRelations(): array
