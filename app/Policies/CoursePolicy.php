@@ -40,8 +40,9 @@ class CoursePolicy
     public function update(User $user, Course $course): bool
     {
         $courseAdmin = $user->id === $course->course_admin_id;
+        $student = $user->attendingCourse()->get()->contains($course);
 
-        return $user->checkPermissionTo('update Course') && $courseAdmin;
+        return $user->checkPermissionTo('update Course') && ($courseAdmin | $student);
     }
 
     /**

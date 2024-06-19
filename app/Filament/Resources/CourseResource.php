@@ -32,6 +32,7 @@ class CourseResource extends Resource
                 Forms\Components\FileUpload::make('student_file')
                     ->disk('student-files')
                     ->label('Upload Student Files')
+                    ->hint('Refresh the page after file is uploaded!')
                     ->acceptedFileTypes(['text/csv', 'text/plain']),
                 Forms\Components\TextInput::make('max_students')->numeric()->required(),
             ]);
@@ -60,6 +61,11 @@ class CourseResource extends Resource
     {
         if (auth()->user()->hasRole('Super Admin')) {
             return Course::query();
+        }
+
+        if (auth()->user()->hasRole('Student')) {
+            $studentCoursesIds = auth()->user()->attendingCourse()->get()->pluck('id')->toArray();
+            return parent::getEloquentQuery()->whereIn('id', $studentCoursesIds);
         }
 
         // Ensure that only the courses of the authenticated user are fetched
