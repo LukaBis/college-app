@@ -6,6 +6,7 @@ use App\Filament\Resources\CourseResource\RelationManagers\ProjectsRelationManag
 use App\Filament\Resources\ProjectResource\RelationManagers\StudentsRelationManager;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
+use App\Filament\Resources\ProjectResource\Widgets\AssignToProjectWidget;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -43,6 +44,13 @@ class ProjectResource extends Resource
                             ]),
                     ])->columnSpanFull()
             ]);
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            AssignToProjectWidget::class,
+        ];
     }
 
     public static function table(Table $table): Table
