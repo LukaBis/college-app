@@ -26,6 +26,7 @@ class ProjectResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
+                Forms\Components\TextInput::make('description')->required(),
                 Forms\Components\FileUpload::make('team_declaration')
                     ->disk('team-declarations')
                     ->label('Upload Team Declaration')
