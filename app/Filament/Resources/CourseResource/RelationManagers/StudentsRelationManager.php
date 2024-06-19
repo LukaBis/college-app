@@ -40,6 +40,7 @@ class StudentsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('surname')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\BooleanColumn::make('active'),
             ])

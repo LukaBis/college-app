@@ -14,7 +14,8 @@ return [
     */
 
     'csv-attributes' => [
-        'fullName' => 'full name',
+        'name' => 'ime',
+        'surname' => 'prezime',
         'email' => 'email',
         'jmbag' => 'jmbag',
     ],
