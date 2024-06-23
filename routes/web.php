@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,7 @@ Route::get('/', function () {
 Route::get('login', function () {
     return redirect()->route('filament.admin.auth.login');
 })->name('login');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/projects/{project}/users/{user}', [ProjectController::class, 'assignStudentToProject'])->name('assign-student-to-project');
+});

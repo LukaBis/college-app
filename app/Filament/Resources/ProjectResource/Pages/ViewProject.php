@@ -4,7 +4,6 @@ namespace App\Filament\Resources\ProjectResource\Pages;
 
 use App\Filament\Resources\ProjectResource;
 use App\Filament\Resources\ProjectResource\Widgets\AssignToProjectWidget;
-use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewProject extends ViewRecord
@@ -14,7 +13,10 @@ class ViewProject extends ViewRecord
     public function getHeaderWidgets(): array
     {
         return [
-            AssignToProjectWidget::class,
+            AssignToProjectWidget::make([
+                'studentId' => auth()->user()->id,
+                'projectId' => $this->record->id,
+            ]),
         ];
     }
 }

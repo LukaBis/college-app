@@ -65,6 +65,7 @@ class CourseResource extends Resource
 
         if (auth()->user()->hasRole('Student')) {
             $studentCoursesIds = auth()->user()->attendingCourse()->get()->pluck('id')->toArray();
+
             return parent::getEloquentQuery()->whereIn('id', $studentCoursesIds);
         }
 

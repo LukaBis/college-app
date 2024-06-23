@@ -7,8 +7,6 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProjectsRelationManager extends RelationManager
 {
@@ -40,7 +38,7 @@ class ProjectsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()->url(fn ($record) => '/admin/projects/'.$record->id.'/edit'),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ViewAction::make()->url(fn ($record) => '/admin/projects/'.$record->id)
+                Tables\Actions\ViewAction::make()->url(fn ($record) => '/admin/projects/'.$record->id),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
