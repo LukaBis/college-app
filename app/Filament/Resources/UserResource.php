@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\Widgets\StudentActivationRecordsWidget;
 use App\Models\Project;
 use App\Models\User;
 use Filament\Forms;
@@ -78,6 +79,13 @@ class UserResource extends Resource
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            StudentActivationRecordsWidget::class,
         ];
     }
 }
