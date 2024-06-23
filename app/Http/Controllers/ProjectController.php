@@ -10,6 +10,8 @@ class ProjectController extends Controller
 {
     public function assignStudentToProject(Project $project, User $user)
     {
-        return response('Success', 200);
+        $project->students()->attach($user);
+
+        return redirect()->back();
     }
 }

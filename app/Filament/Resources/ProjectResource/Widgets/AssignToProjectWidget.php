@@ -10,6 +10,12 @@ class AssignToProjectWidget extends Widget
 
     public int $studentId;
     public int $projectId;
+    public bool $projectSelected;
+
+    /**
+     * @var bool warning displays that student has already picked his project for given course and he can't choose anymore
+     */
+    public bool $displayWarning;
 
     public static function canView(): bool
     {
