@@ -25,7 +25,7 @@ class StudentsRelationManager extends RelationManager
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')->email()->required(),
                 Forms\Components\TextInput::make('password')->password()->required(),
-                Forms\Components\TextInput::make('jmbag'),
+                Forms\Components\TextInput::make('jmbag')->disabled(auth()->user()->hasRole('Student')),
                 Forms\Components\Toggle::make('active')->required(),
                 Forms\Components\Select::make('roles')
                     ->preload()

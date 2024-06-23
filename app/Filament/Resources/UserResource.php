@@ -34,7 +34,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create'),
-                Forms\Components\TextInput::make('jmbag'),
+                Forms\Components\TextInput::make('jmbag')->disabled(auth()->user()->hasRole('Student')),
                 Forms\Components\Toggle::make('active')->required()->disabled(! $canUpdateActive),
                 Forms\Components\Toggle::make('team_lead')->required(),
                 Forms\Components\Select::make('roles')
