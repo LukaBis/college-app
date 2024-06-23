@@ -30,6 +30,7 @@ class User extends Authenticatable
         'jmbag',
         'active',
         'team_lead',
+        'activation_dates',
     ];
 
     /**
@@ -50,7 +51,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'activation_dates' => 'array',
     ];
+
+    public bool $processingUpdate = false;
 
     /* this is course that this user (course admin) manages */
     public function course(): HasOne

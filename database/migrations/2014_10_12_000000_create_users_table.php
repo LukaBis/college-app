@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('jmbag', 10)->unique()->nullable();
             $table->boolean('active')->default(true)->nullable();
+            $table->json('activation_dates')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
