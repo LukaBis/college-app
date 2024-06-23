@@ -38,26 +38,6 @@ class UserResource extends Resource
                 Forms\Components\Toggle::make('active')->required()->disabled(! $canUpdateActive),
                 Forms\Components\Toggle::make('team_lead')->required(),
                 Forms\Components\Select::make('roles')->preload()->relationship('roles', 'name'),
-                Forms\Components\Select::make('project')
-                    ->preload()
-                    ->relationship('project', 'name')
-                    ->options(function (callable $get) {
-                        $userId = $get('id');
-                        if ($userId) {
-                            // Fetch the user's courses
-                            $user = User::find($userId);
-                            if ($user) {
-                                // Get all course IDs the user is enrolled in
-                                $courseIds = $user->attendingCourse()->get()->pluck('id');
-
-                                // Get all projects belonging to those courses
-                                return Project::whereIn('course_id', $courseIds)->pluck('name', 'id');
-                            }
-                        }
-
-                        return Project::pluck('name', 'id'); // Optionally handle the case where no user is found
-                    })
-                    ->label('Student project'),
             ]);
     }
 

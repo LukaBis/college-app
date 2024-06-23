@@ -64,8 +64,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id');
     }
 
-    public function project(): BelongsTo
+    public function projects(): BelongsToMany
     {
-        return $this->belongsTo(Project::class, 'project_id');
+        return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
     }
 }
