@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->foreignId('course_admin_id')->nullable()->constrained('users', 'id');
             $table->string('student_file')->nullable();
-            $table->integer('max_students')->default(30);
             $table->timestamps();
         });
     }

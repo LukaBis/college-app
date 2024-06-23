@@ -58,20 +58,7 @@ class StudentsRelationManager extends RelationManager
                     ->query(fn (Builder $query): Builder => $query->where('active', false)),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $course = $this->getOwnerRecord();
-                        if ($course->students()->count() >= $course->max_students) {
-                            Notification::make()
-                                ->title('Error')
-                                ->body('The maximum number of students for this course has been reached.')
-                                ->danger()
-                                ->send();
-                            abort(403, 'The maximum number of students for this course has been reached.');
-                        }
-
-                        return $data;
-                    }),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

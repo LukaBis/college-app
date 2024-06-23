@@ -38,10 +38,6 @@ class CourseResource extends Resource
                     ->hint('Refresh the page after file is uploaded!')
                     ->acceptedFileTypes(['text/csv', 'text/plain'])
                     ->disabled(auth()->user()->hasRole('Student')),
-                Forms\Components\TextInput::make('max_students')
-                    ->numeric()
-                    ->required()
-                    ->disabled(auth()->user()->hasRole('Student')),
             ]);
     }
 
