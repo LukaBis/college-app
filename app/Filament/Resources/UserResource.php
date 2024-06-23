@@ -37,7 +37,10 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('jmbag'),
                 Forms\Components\Toggle::make('active')->required()->disabled(! $canUpdateActive),
                 Forms\Components\Toggle::make('team_lead')->required(),
-                Forms\Components\Select::make('roles')->preload()->relationship('roles', 'name'),
+                Forms\Components\Select::make('roles')
+                    ->preload()
+                    ->relationship('roles', 'name')
+                    ->disabled(auth()->user()->hasRole('Student')),
             ]);
     }
 

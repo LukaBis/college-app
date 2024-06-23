@@ -30,7 +30,8 @@ class StudentsRelationManager extends RelationManager
                 Forms\Components\Select::make('roles')
                     ->preload()
                     ->relationship('roles', 'name')
-                    ->default(Role::where('name', 'Student')->first()->id),
+                    ->default(Role::where('name', 'Student')->first()->id)
+                    ->disabled(auth()->user()->hasRole('Student')),
             ]);
     }
 
