@@ -23,18 +23,25 @@ class CourseResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')->required(),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->disabled(auth()->user()->hasRole('Student')),
                 Forms\Components\Select::make('course_admin_id')
                     ->label('Course Admin')
                     ->relationship('courseAdmin', 'name')
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->disabled(auth()->user()->hasRole('Student')),
                 Forms\Components\FileUpload::make('student_file')
                     ->disk('student-files')
                     ->label('Upload Student Files')
                     ->hint('Refresh the page after file is uploaded!')
-                    ->acceptedFileTypes(['text/csv', 'text/plain']),
-                Forms\Components\TextInput::make('max_students')->numeric()->required(),
+                    ->acceptedFileTypes(['text/csv', 'text/plain'])
+                    ->disabled(auth()->user()->hasRole('Student')),
+                Forms\Components\TextInput::make('max_students')
+                    ->numeric()
+                    ->required()
+                    ->disabled(auth()->user()->hasRole('Student')),
             ]);
     }
 
@@ -48,7 +55,7 @@ class CourseResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('More')->icon(null),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

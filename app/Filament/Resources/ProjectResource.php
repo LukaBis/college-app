@@ -27,8 +27,12 @@ class ProjectResource extends Resource
                     ->tabs([
                         Tabs\Tab::make('About')
                             ->schema([
-                                Forms\Components\TextInput::make('name')->required(),
-                                Forms\Components\TextInput::make('description')->required(),
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+            ->disabled(auth()->user()->hasRole('Student')),
+                                Forms\Components\TextInput::make('description')
+                                    ->required()
+                                    ->disabled(auth()->user()->hasRole('Student')),
                             ]),
                         Tabs\Tab::make('Documentation')
                             ->schema([
