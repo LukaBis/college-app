@@ -36,10 +36,12 @@ class StudentsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                //
+                Tables\Actions\AttachAction::make()
+                    ->preloadRecordSelect()
+                    ->disabled(auth()->user()->hasRole('Student')),
             ])
             ->actions([
-                //
+                Tables\Actions\DetachAction::make()->disabled(auth()->user()->hasRole('Student')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

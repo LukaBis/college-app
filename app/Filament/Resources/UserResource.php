@@ -19,7 +19,15 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static bool $shouldRegisterNavigation = false;
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        if(auth()->user()->hasRole('Super Admin')) {
+            return true;
+        }
+
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
