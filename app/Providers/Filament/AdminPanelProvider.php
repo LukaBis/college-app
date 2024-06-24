@@ -17,7 +17,10 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Navigation\NavigationItem;
+use Filament\Pages\Dashboard;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -56,6 +59,12 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
-            ->brandName('RiTeh');
+            ->brandName('RiTeh')
+            ->navigationItems([
+                NavigationItem::make('Account')
+                    ->url(fn (): string => route('filament.admin.resources.users.edit', ['record' => Auth::user()->id]))
+                    ->icon('heroicon-o-user')
+                    ->sort(3),
+            ]);;
     }
 }
