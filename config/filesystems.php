@@ -42,7 +42,7 @@ return [
             'throw' => false,
         ],
 
-        'team-declarations' => [
+        'docs' => [
             'driver' => 'local',
             'root' => public_path('/storage'),
             'throw' => false,

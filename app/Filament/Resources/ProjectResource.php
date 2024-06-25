@@ -38,7 +38,7 @@ class ProjectResource extends Resource
                         Tabs\Tab::make('Documentation')
                             ->schema([
                                 Forms\Components\FileUpload::make('team_declaration')
-                                    ->disk('team-declarations')
+                                    ->disk('docs')
                                     ->label('Upload Team Declaration')
                                     ->acceptedFileTypes(['application/pdf'])
                                     ->openable(),

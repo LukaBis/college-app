@@ -11,6 +11,8 @@ class Meeting extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     protected static function newFactory(): MeetingFactory
     {
         return MeetingFactory::new();
