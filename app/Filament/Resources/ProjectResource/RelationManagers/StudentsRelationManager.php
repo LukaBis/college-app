@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -38,6 +39,7 @@ class StudentsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
+                    ->recordTitle(fn (User $record): string => "{$record->name} {$record->surname} ({$record->email})")
                     ->disabled(auth()->user()->hasRole('Student')),
             ])
             ->actions([
