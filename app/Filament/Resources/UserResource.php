@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\Widgets\StudentActivationRecordsWidget;
-use App\Models\Project;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -22,7 +21,7 @@ class UserResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        if(auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasRole('Super Admin')) {
             return true;
         }
 

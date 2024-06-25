@@ -20,6 +20,7 @@ class ProjectResource extends Resource
     protected static ?string $model = Project::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
     protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
@@ -32,7 +33,7 @@ class ProjectResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('name')
                                     ->required()
-            ->disabled(auth()->user()->hasRole('Student')),
+                                    ->disabled(auth()->user()->hasRole('Student')),
                                 Forms\Components\TextInput::make('description')
                                     ->required()
                                     ->disabled(auth()->user()->hasRole('Student')),

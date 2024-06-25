@@ -9,7 +9,9 @@ class AssignToProjectWidget extends Widget
     protected static string $view = 'filament.resources.project-resource.widgets.assign-to-project-widget';
 
     public int $studentId;
+
     public int $projectId;
+
     public bool $projectSelected;
 
     /**
