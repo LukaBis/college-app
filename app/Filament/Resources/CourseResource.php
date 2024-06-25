@@ -31,7 +31,7 @@ class CourseResource extends Resource
                     ->relationship('courseAdmin', 'name')
                     ->searchable()
                     ->preload()
-                    ->disabled(auth()->user()->hasRole('Student')),
+                    ->disabled(! auth()->user()->hasRole('Super Admin')),
                 Forms\Components\FileUpload::make('student_file')
                     ->disk('student-files')
                     ->label('Upload Student Files')
