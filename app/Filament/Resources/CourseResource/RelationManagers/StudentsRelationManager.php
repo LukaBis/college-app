@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CourseResource\RelationManagers;
 
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -17,6 +18,8 @@ class StudentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'students';
 
+    protected static ?string $inverseRelationship = 'attendingCourse';
+
     public function form(Form $form): Form
     {
         return $form
@@ -24,6 +27,7 @@ class StudentsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('surname')->required(),
                 Forms\Components\TextInput::make('email')->email()->required(),
                 Forms\Components\TextInput::make('password')
                     ->password()
@@ -59,6 +63,10 @@ class StudentsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
+                Tables\Actions\AttachAction::make()
+                    ->preloadRecordSelect()
+                    ->recordTitle(fn (User $record): string => "{$record->name} {$record->surname} ({$record->email})")
+                    ->disabled(auth()->user()->hasRole('Student')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
