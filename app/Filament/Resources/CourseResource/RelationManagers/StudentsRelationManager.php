@@ -35,7 +35,6 @@ class StudentsRelationManager extends RelationManager
                     ->required(fn (string $context): bool => $context === 'create'),
                 Forms\Components\TextInput::make('jmbag')->disabled(auth()->user()->hasRole('Student')),
                 Forms\Components\Toggle::make('active')->required()->disabled(auth()->user()->hasRole('Student')),
-                Forms\Components\Toggle::make('team_lead')->required()->disabled(auth()->user()->hasRole('Student')),
                 Forms\Components\Select::make('roles')
                     ->preload()
                     ->relationship('roles', 'name')
