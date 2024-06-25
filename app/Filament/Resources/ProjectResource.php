@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
+use App\Filament\Resources\ProjectResource\RelationManagers\ActivitiesRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\MeetingsRelationManager;
 use App\Filament\Resources\ProjectResource\RelationManagers\StudentsRelationManager;
 use App\Filament\Resources\ProjectResource\Widgets\AssignToProjectWidget;
@@ -79,6 +80,7 @@ class ProjectResource extends Resource
         return [
             StudentsRelationManager::class,
             MeetingsRelationManager::class,
+            ActivitiesRelationManager::class,
         ];
     }
 

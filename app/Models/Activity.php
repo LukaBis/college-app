@@ -11,6 +11,8 @@ class Activity extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     protected static function newFactory(): ActivityFactory
     {
         return ActivityFactory::new();
