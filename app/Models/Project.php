@@ -28,4 +28,9 @@ class Project extends Model
     {
         return $this->hasMany(Meeting::class, 'project_id');
     }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class, 'project_id');
+    }
 }
