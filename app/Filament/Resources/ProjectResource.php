@@ -37,6 +37,11 @@ class ProjectResource extends Resource
                                 Forms\Components\TextInput::make('description')
                                     ->required()
                                     ->disabled(auth()->user()->hasRole('Student')),
+                                Forms\Components\TextInput::make('max_students')
+                                    ->required()
+                                    ->numeric()
+                                    ->label('Max Number of Students')
+                                    ->disabled(auth()->user()->hasRole('Student')),
                             ]),
                         Tabs\Tab::make('Documentation')
                             ->schema([

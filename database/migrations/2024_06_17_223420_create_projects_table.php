@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->integer('max_students')->default(4);
             $table->foreignId('course_id')->constrained();
             $table->timestamps();
         });

@@ -19,6 +19,10 @@ class ProjectsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('max_students')
+                    ->required()
+                    ->numeric()
+                    ->label('Max Number of Students'),
             ]);
     }
 
