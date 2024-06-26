@@ -21,7 +21,7 @@ class Project extends Model
 
     public function students(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id');
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id')->withPivot('team_lead');
     }
 
     public function meetings(): HasMany

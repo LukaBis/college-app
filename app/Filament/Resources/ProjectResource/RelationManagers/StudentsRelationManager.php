@@ -31,6 +31,7 @@ class StudentsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('jmbag'),
+                Tables\Columns\ToggleColumn::make('team_lead')->disabled(auth()->user()->hasRole('Student')),
             ])
             ->filters([
                 //
