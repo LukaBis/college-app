@@ -26,12 +26,13 @@ class CourseResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->disabled(auth()->user()->hasRole('Student')),
-                Forms\Components\Select::make('course_admin_id')
+                Forms\Components\Select::make('admins')
                     ->label('Course Admin')
-                    ->relationship('courseAdmin', 'name')
                     ->searchable()
                     ->preload()
-                    ->disabled(! auth()->user()->hasRole('Super Admin')),
+                    ->disabled(! auth()->user()->hasRole('Super Admin'))
+                    ->relationship('admins', 'name')
+                    ->multiple(),
                 Forms\Components\FileUpload::make('student_file')
                     ->disk('student-files')
                     ->label('Upload Student Files')
