@@ -20,7 +20,7 @@ class CoursePolicy
      */
     public function view(User $user, Course $course): bool
     {
-        $courseAdmin = $user->id === $course->course_admin_id;
+        $courseAdmin = $course->admins()->get()->contains($user);
         $student = $user->attendingCourse()->get()->contains($course);
 
         return $user->checkPermissionTo('view Course') && ($courseAdmin | $student);
@@ -39,7 +39,7 @@ class CoursePolicy
      */
     public function update(User $user, Course $course): bool
     {
-        $courseAdmin = $user->id === $course->course_admin_id;
+        $courseAdmin = $course->admins()->get()->contains($user);
         $student = $user->attendingCourse()->get()->contains($course);
 
         return $user->checkPermissionTo('update Course') && ($courseAdmin | $student);

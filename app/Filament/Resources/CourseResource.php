@@ -73,8 +73,13 @@ class CourseResource extends Resource
             return parent::getEloquentQuery()->whereIn('id', $studentCoursesIds);
         }
 
-        // Ensure that only the courses of the authenticated user are fetched
-        return parent::getEloquentQuery()->where('course_admin_id', auth()->id());
+        if (auth()->user()->hasRole('Course Admin')) {
+            $studentCoursesIds = auth()->user()->course()->get()->pluck('id')->toArray();
+
+            return parent::getEloquentQuery()->whereIn('id', $studentCoursesIds);
+        }
+
+        return parent::getEloquentQuery();
     }
 
     public static function getRelations(): array
