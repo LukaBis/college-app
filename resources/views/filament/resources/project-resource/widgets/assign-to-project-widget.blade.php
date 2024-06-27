@@ -8,6 +8,10 @@
             <p>
                 You have already chosen another project for this course.
             </p>
+        @elseif($maxNumberOfStudents)
+            <p>
+                Project has reached maximum number of students.
+            </p>
         @else
             <form action='{{ "/projects/{$projectId}/users/{$studentId}"  }}' method="post">
                 @csrf

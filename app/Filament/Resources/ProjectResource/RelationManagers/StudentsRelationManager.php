@@ -40,7 +40,8 @@ class StudentsRelationManager extends RelationManager
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
                     ->recordTitle(fn (User $record): string => "{$record->name} {$record->surname} ({$record->email})")
-                    ->disabled(auth()->user()->hasRole('Student')),
+                    ->disabled(auth()->user()->hasRole('Student'))
+                    ->disabled($this->getOwnerRecord()->max_students <= $this->getOwnerRecord()->students()->count()),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make()->disabled(auth()->user()->hasRole('Student')),

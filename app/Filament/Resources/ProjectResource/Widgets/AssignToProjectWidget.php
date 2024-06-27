@@ -19,6 +19,8 @@ class AssignToProjectWidget extends Widget
      */
     public bool $displayWarning;
 
+    public bool $maxNumberOfStudents;
+
     public static function canView(): bool
     {
         return auth()->user()->hasRole('Student');
