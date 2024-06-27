@@ -55,10 +55,10 @@ class User extends Authenticatable
 
     public bool $processingUpdate = false;
 
-    /* this is course that this user (course admin) manages */
-    public function course(): HasOne
+    /* these are courses that this user (course admin) manages */
+    public function course(): BelongsToMany
     {
-        return $this->hasOne(Course::class, 'course_admin_id');
+        return $this->belongsToMany(Course::class, 'admin_course_user', 'user_id', 'course_id')->withPivot(['course_id', 'user_id']);
     }
 
     /* this is course that this user (student) is attending */

@@ -20,11 +20,6 @@ class Course extends Model
         return CourseFactory::new();
     }
 
-    public function courseAdmin(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'course_admin_id');
-    }
-
     public function students(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
@@ -33,5 +28,10 @@ class Course extends Model
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function admins(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'admin_course', 'course_id', 'user_id')->withPivot(['user_id', 'course_id']);
     }
 }
