@@ -87,6 +87,7 @@ class CourseResource extends Resource
         return [
             RelationManagers\StudentsRelationManager::class,
             ProjectsRelationManager::class,
+            RelationManagers\ValuationTermsRelationManager::class,
         ];
     }
 

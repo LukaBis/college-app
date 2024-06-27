@@ -34,4 +34,9 @@ class Course extends Model
     {
         return $this->belongsToMany(User::class, 'admin_course', 'course_id', 'user_id')->withPivot(['user_id', 'course_id']);
     }
+
+    public function valuationTerms(): HasMany
+    {
+        return $this->hasMany(ValuationTerm::class);
+    }
 }

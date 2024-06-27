@@ -19,9 +19,13 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        $isCorresspondingCourseAdmin = $user->course->id === $model->attendingCourse->id;
+        $studentAttendingCourses = $model->attendingCourse()->get();
+        $courseAdminManagingCourses = $user->course()->get();
+        $intersection = $studentAttendingCourses->intersect($courseAdminManagingCourses);
 
-        return $user->checkPermissionTo('view User') && ($user->id === $model->id || $isCorresspondingCourseAdmin);
+        $isCorrespondingCourseAdmin = $intersection->isNotEmpty();
+
+        return $user->checkPermissionTo('view User') && ($user->id === $model->id || $isCorrespondingCourseAdmin);
     }
 
     /**
@@ -37,9 +41,13 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        $isCorresspondingCourseAdmin = $model->attendingCourse()->get()->contains($user->course);
+        $studentAttendingCourses = $model->attendingCourse()->get();
+        $courseAdminManagingCourses = $user->course()->get();
+        $intersection = $studentAttendingCourses->intersect($courseAdminManagingCourses);
 
-        return $user->checkPermissionTo('update User') && ($user->id === $model->id || $isCorresspondingCourseAdmin);
+        $isCorrespondingCourseAdmin = $intersection->isNotEmpty();
+
+        return $user->checkPermissionTo('update User') && ($user->id === $model->id || $isCorrespondingCourseAdmin);
     }
 
     /**
