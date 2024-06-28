@@ -24,11 +24,6 @@ class ValuationsRelationManager extends RelationManager
                     ->default($this->getOwnerRecord()->id)
                     ->disabled()
                     ->required(),
-                Forms\Components\Select::make('student_evaluator_id')
-                    ->relationship('evaluator', 'name')
-                    ->default(auth()->user()->id)
-                    ->disabled()
-                    ->required(),
                 Forms\Components\Select::make('project_id')
                     ->relationship('project', 'name')
                     ->reactive()
@@ -50,6 +45,42 @@ class ValuationsRelationManager extends RelationManager
                     })
                     ->required(),
                 Forms\Components\Toggle::make('self_evaluation')->required(),
+                Forms\Components\Select::make('mark1')
+                    ->options(['A', 'B', 'C', 'D'])
+                    ->required()
+                    ->columnSpanFull()
+                    ->label('Opci doprinos'),
+                Forms\Components\Select::make('mark2')
+                    ->options(['A', 'B', 'C', 'D'])
+                    ->required()
+                    ->columnSpanFull()
+                    ->label('Rješavanje problema'),
+                Forms\Components\Select::make('mark3')
+                    ->options(['A', 'B', 'C', 'D'])
+                    ->required()
+                    ->columnSpanFull()
+                    ->label('Stav'),
+                Forms\Components\Select::make('mark4')
+                    ->options(['A', 'B', 'C', 'D'])
+                    ->required()
+                    ->columnSpanFull()
+                    ->label('Usredotočenost na zadatak'),
+                Forms\Components\Select::make('mark5')
+                    ->options(['A', 'B', 'C', 'D'])
+                    ->required()
+                    ->columnSpanFull()
+                    ->label('Suradnja s ostalim članovima'),
+                Forms\Components\Select::make('mark6')
+                    ->options(['A', 'B', 'C', 'D'])
+                    ->required()
+                    ->columnSpanFull()
+                    ->label('Sastanci'),
+                Forms\Components\Select::make('mark7')
+                    ->options(['A', 'B', 'C', 'D'])
+                    ->required()
+                    ->columnSpanFull()
+                    ->label('Prihvaćanje zadataka i poštivanje rokova'),
+                Forms\Components\TextInput::make('extra_comment')->columnSpanFull(),
             ]);
     }
 
@@ -67,12 +98,12 @@ class ValuationsRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                //Tables\Actions\EditAction::make(),
+                //Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    //Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
