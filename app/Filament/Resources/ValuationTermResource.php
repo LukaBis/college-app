@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ValuationTermResource\Pages;
+use App\Filament\Resources\ValuationTermResource\RelationManagers\ValuationsRelationManager;
 use App\Models\ValuationTerm;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -53,7 +54,7 @@ class ValuationTermResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ValuationsRelationManager::class,
         ];
     }
 

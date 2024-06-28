@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -69,5 +70,20 @@ class User extends Authenticatable
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id')->withPivot('team_lead');
+    }
+
+    /**
+     * This method checks if this user is part of at least one
+     * of the projects given in projects collection param.
+     *
+     * @param Collection $projects
+     * @return bool
+     */
+    public function attendsProjects(Collection $projects): bool
+    {
+        $thisUserProjects = $this->projects()->get();
+        $intersection = $thisUserProjects->intersect($projects);
+
+        return $intersection->isNotEmpty();
     }
 }

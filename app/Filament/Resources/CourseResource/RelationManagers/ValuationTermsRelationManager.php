@@ -39,17 +39,17 @@ class ValuationTermsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()->disabled(auth()->user()->hasRole('Student')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->url(fn ($record) => '/admin/valuation-terms/'.$record->id.'/edit')
                     ->label('More')->icon(null),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->disabled(auth()->user()->hasRole('Student')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->disabled(auth()->user()->hasRole('Student')),
                 ]),
             ]);
     }
