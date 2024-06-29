@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\Widgets\StudentActivationRecordsWidget;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -92,7 +91,7 @@ class UserResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            StudentActivationRecordsWidget::class,
+            //
         ];
     }
 }

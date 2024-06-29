@@ -10,21 +10,6 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
-    public function getFooterWidgets(): array
-    {
-        $records = $this->record->activation_dates;
-
-        if ($records === null) {
-            $records = [];
-        }
-
-        return [
-            UserResource\Widgets\StudentActivationRecordsWidget::make([
-                'records' => $records,
-            ]),
-        ];
-    }
-
     protected function getHeaderActions(): array
     {
         return [
