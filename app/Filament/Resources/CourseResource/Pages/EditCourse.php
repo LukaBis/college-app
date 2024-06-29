@@ -10,6 +10,11 @@ class EditCourse extends EditRecord
 {
     protected static string $resource = CourseResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('edit', ['record' => $this->getRecord()]);
+    }
+
     protected function getHeaderActions(): array
     {
         return [

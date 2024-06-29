@@ -11,6 +11,11 @@ class EditProject extends EditRecord
 {
     protected static string $resource = ProjectResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('edit', ['record' => $this->getRecord()]);
+    }
+
     public function getHeaderWidgets(): array
     {
         $isStudent = auth()->user()->hasRole('Student');
