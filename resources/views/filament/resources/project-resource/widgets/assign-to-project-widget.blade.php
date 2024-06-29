@@ -21,7 +21,7 @@
                         onmouseover="this.style.backgroundColor='#1e40af'"
                         onmouseout="this.style.backgroundColor='#3b82f6'"
                         type="submit">
-                    Assign me to this project
+                    Join this project
                 </button>
             </form>
         @endif
