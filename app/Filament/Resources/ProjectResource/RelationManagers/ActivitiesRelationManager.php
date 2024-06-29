@@ -40,7 +40,7 @@ class ActivitiesRelationManager extends RelationManager
                     ->disabled(! auth()->user()->projects()->get()->pluck('id')->contains($this->getOwnerRecord()->id)),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make()->url(fn ($record) => '/storage/'.$record->file)->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
