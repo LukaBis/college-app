@@ -41,10 +41,11 @@ class StudentsRelationManager extends RelationManager
                     ->preloadRecordSelect()
                     ->recordTitle(fn (User $record): string => "{$record->name} {$record->surname} ({$record->email})")
                     ->disabled(auth()->user()->hasRole('Student'))
-                    ->disabled($this->getOwnerRecord()->max_students <= $this->getOwnerRecord()->students()->count()),
+                    ->disabled($this->getOwnerRecord()->max_students <= $this->getOwnerRecord()->students()->count())
+                    ->label('Add student to this project'),
             ])
             ->actions([
-                Tables\Actions\DetachAction::make()->disabled(auth()->user()->hasRole('Student')),
+                Tables\Actions\DetachAction::make()->disabled(auth()->user()->hasRole('Student'))->label('Remove from project'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
