@@ -63,37 +63,114 @@ class ValuationsRelationManager extends RelationManager
                     ->disabled(fn (callable $get) => $get('self_evaluation'))
                     ->required(fn (callable $get) => ! $get('self_evaluation')),
                 Forms\Components\Radio::make('mark1')
-                    ->options(['A', 'B', 'C', 'D'])
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'C' => 'C',
+                        'D' => 'D'
+                    ])
+                    ->descriptions([
+                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
+                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
+                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
+                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
+                    ])
                     ->required()
                     ->columnSpanFull()
                     ->label('Opci doprinos'),
                 Forms\Components\Radio::make('mark2')
-                    ->options(['A', 'B', 'C', 'D'])
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'C' => 'C',
+                        'D' => 'D'
+                    ])
+                    ->descriptions([
+                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
+                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
+                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
+                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
+                    ])
                     ->required()
                     ->columnSpanFull()
                     ->label('Rješavanje problema'),
                 Forms\Components\Radio::make('mark3')
-                    ->options(['A', 'B', 'C', 'D'])
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'C' => 'C',
+                        'D' => 'D'
+                    ])
+                    ->descriptions([
+                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
+                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
+                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
+                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
+                    ])
                     ->required()
                     ->columnSpanFull()
                     ->label('Stav'),
                 Forms\Components\Radio::make('mark4')
-                    ->options(['A', 'B', 'C', 'D'])
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'C' => 'C',
+                        'D' => 'D'
+                    ])
+                    ->descriptions([
+                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
+                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
+                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
+                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
+                    ])
                     ->required()
                     ->columnSpanFull()
                     ->label('Usredotočenost na zadatak'),
                 Forms\Components\Radio::make('mark5')
-                    ->options(['A', 'B', 'C', 'D'])
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'C' => 'C',
+                        'D' => 'D'
+                    ])
+                    ->descriptions([
+                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
+                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
+                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
+                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
+                    ])
                     ->required()
                     ->columnSpanFull()
                     ->label('Suradnja s ostalim članovima'),
                 Forms\Components\Radio::make('mark6')
-                    ->options(['A', 'B', 'C', 'D'])
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'C' => 'C',
+                        'D' => 'D'
+                    ])
+                    ->descriptions([
+                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
+                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
+                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
+                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
+                    ])
                     ->required()
                     ->columnSpanFull()
                     ->label('Sastanci'),
                 Forms\Components\Radio::make('mark7')
-                    ->options(['A', 'B', 'C', 'D'])
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'C' => 'C',
+                        'D' => 'D'
+                    ])
+                    ->descriptions([
+                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
+                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
+                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
+                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
+                    ])
                     ->required()
                     ->columnSpanFull()
                     ->label('Prihvaćanje zadataka i poštivanje rokova'),
