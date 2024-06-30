@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('valuation_term_id')->constrained();
             $table->foreignId('student_evaluator_id')->constrained('users');
-            $table->foreignId('rated_student_id')->constrained('users');
+            $table->foreignId('rated_student_id')->nullable()->constrained('users');
             $table->foreignId('project_id')->constrained();
             $table->boolean('self_evaluation')->default(false);
             $table->string('mark1');

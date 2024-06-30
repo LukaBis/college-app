@@ -43,8 +43,11 @@ class ValuationsRelationManager extends RelationManager
                     ->reactive()
                     ->afterStateUpdated(fn (callable $set) => $set('rated_student_id', null))
                     ->required(),
+                Forms\Components\Toggle::make('self_evaluation')
+                    ->reactive()
+                    ->required(),
                 Forms\Components\Select::make('rated_student_id')
-                    ->relationship('ratedStudent', 'name')
+                    ->relationship(name: 'ratedStudent', titleAttribute: 'name')
                     ->options(function (callable $get) {
                         // given options are only students from the selected project
                         $projectId = $get('project_id');
@@ -52,44 +55,44 @@ class ValuationsRelationManager extends RelationManager
                         if ($projectId) {
                             return User::whereHas('projects', function ($query) use($projectId) {
                                 $query->where('projects.id', '=', $projectId);
-                            })->pluck('name', 'id');
+                            })->where('id', '!=', auth()->user()->id)->pluck('name', 'id');
                         }
 
                         return [];
                     })
-                    ->required(),
-                Forms\Components\Toggle::make('self_evaluation')->required(),
-                Forms\Components\Select::make('mark1')
+                    ->disabled(fn (callable $get) => $get('self_evaluation'))
+                    ->required(fn (callable $get) => ! $get('self_evaluation')),
+                Forms\Components\Radio::make('mark1')
                     ->options(['A', 'B', 'C', 'D'])
                     ->required()
                     ->columnSpanFull()
                     ->label('Opci doprinos'),
-                Forms\Components\Select::make('mark2')
+                Forms\Components\Radio::make('mark2')
                     ->options(['A', 'B', 'C', 'D'])
                     ->required()
                     ->columnSpanFull()
                     ->label('Rješavanje problema'),
-                Forms\Components\Select::make('mark3')
+                Forms\Components\Radio::make('mark3')
                     ->options(['A', 'B', 'C', 'D'])
                     ->required()
                     ->columnSpanFull()
                     ->label('Stav'),
-                Forms\Components\Select::make('mark4')
+                Forms\Components\Radio::make('mark4')
                     ->options(['A', 'B', 'C', 'D'])
                     ->required()
                     ->columnSpanFull()
                     ->label('Usredotočenost na zadatak'),
-                Forms\Components\Select::make('mark5')
+                Forms\Components\Radio::make('mark5')
                     ->options(['A', 'B', 'C', 'D'])
                     ->required()
                     ->columnSpanFull()
                     ->label('Suradnja s ostalim članovima'),
-                Forms\Components\Select::make('mark6')
+                Forms\Components\Radio::make('mark6')
                     ->options(['A', 'B', 'C', 'D'])
                     ->required()
                     ->columnSpanFull()
                     ->label('Sastanci'),
-                Forms\Components\Select::make('mark7')
+                Forms\Components\Radio::make('mark7')
                     ->options(['A', 'B', 'C', 'D'])
                     ->required()
                     ->columnSpanFull()
