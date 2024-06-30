@@ -4,8 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Activity;
 use App\Models\Course;
+use App\Models\Mark;
 use App\Models\Meeting;
 use App\Models\Project;
+use App\Models\Question;
+use Database\Factories\MarkFactory;
 use Illuminate\Database\Seeder;
 
 class CourseSeeder extends Seeder
@@ -27,6 +30,14 @@ class CourseSeeder extends Seeder
                     'project_id' => $project->id,
                 ]);
             });
+
+            Mark::factory(5)->create([
+                'course_id' => $course->id,
+            ]);
+
+            Question::factory(4)->create([
+                'course_id' => $course->id,
+            ]);
         });
     }
 }
