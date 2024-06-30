@@ -15,6 +15,11 @@ class ValuationsRelationManager extends RelationManager
 {
     protected static string $relationship = 'valuations';
 
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
     public function form(Form $form): Form
     {
         return $form

@@ -4,15 +4,9 @@ namespace App\Filament\Resources\ValuationTermResource\Pages;
 
 use App\Filament\Resources\ValuationTermResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditValuationTerm extends EditRecord
+class ViewValuationTerm extends ViewRecord
 {
     protected static string $resource = ValuationTermResource::class;
-    protected function getHeaderActions(): array
-    {
-        return [
-            //
-        ];
-    }
 }

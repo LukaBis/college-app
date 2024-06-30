@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ValuationTermResource\Pages;
 use App\Filament\Resources\ValuationTermResource\RelationManagers\ValuationsRelationManager;
+use App\Filament\Resources\ValueationTermResource\Pages\ViewValuationTerm;
 use App\Models\ValuationTerm;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -66,6 +67,7 @@ class ValuationTermResource extends Resource
             'index' => Pages\ListValuationTerms::route('/'),
             'create' => Pages\CreateValuationTerm::route('/create'),
             'edit' => Pages\EditValuationTerm::route('/{record}/edit'),
+            'view' => Pages\ViewValuationTerm::route('/{record}'),
         ];
     }
 }

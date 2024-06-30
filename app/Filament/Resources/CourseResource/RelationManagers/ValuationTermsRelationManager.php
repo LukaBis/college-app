@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CourseResource\RelationManagers;
 
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -44,8 +45,9 @@ class ValuationTermsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->url(fn ($record) => '/admin/valuation-terms/'.$record->id.'/edit')
-                    ->label('More')->icon(null),
-                Tables\Actions\DeleteAction::make()->disabled(auth()->user()->hasRole('Student')),
+                    ->visible(! auth()->user()->hasRole('Student')),
+                Tables\Actions\DeleteAction::make()->visible(! auth()->user()->hasRole('Student')),
+                Tables\Actions\ViewAction::make()->url(fn ($record) => '/admin/valuation-terms/'.$record->id),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
