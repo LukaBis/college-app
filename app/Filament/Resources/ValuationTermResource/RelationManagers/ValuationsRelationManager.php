@@ -182,7 +182,13 @@ class ValuationsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->where('student_evaluator_id', '=', auth()->user()->id))
+            ->modifyQueryUsing(function (Builder $query) {
+                if (! auth()->user()->hasRole('Student')) {
+                    return $query;
+                }
+
+                return $query->where('student_evaluator_id', '=', auth()->user()->id);
+            })
             ->recordTitleAttribute('id')
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
