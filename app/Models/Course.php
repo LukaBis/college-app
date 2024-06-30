@@ -38,4 +38,14 @@ class Course extends Model
     {
         return $this->hasMany(ValuationTerm::class);
     }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function marks(): HasMany
+    {
+        return $this->hasMany(Mark::class);
+    }
 }

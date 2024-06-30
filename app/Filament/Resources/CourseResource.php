@@ -8,6 +8,7 @@ use App\Filament\Resources\CourseResource\RelationManagers\ProjectsRelationManag
 use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -85,6 +86,10 @@ class CourseResource extends Resource
     public static function getRelations(): array
     {
         return [
+            RelationGroup::make('Valuation Setup', [
+                RelationManagers\QuestionsRelationManager::class,
+                RelationManagers\MarksRelationManager::class,
+            ]),
             RelationManagers\StudentsRelationManager::class,
             ProjectsRelationManager::class,
             RelationManagers\ValuationTermsRelationManager::class,
