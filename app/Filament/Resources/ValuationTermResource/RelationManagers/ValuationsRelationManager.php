@@ -25,12 +25,21 @@ class ValuationsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\Select::make('valuation_term_id')
-                    ->relationship('valuationTerm', 'title')
+                    ->relationship(
+                        name: 'valuationTerm',
+                        titleAttribute: 'title',
+                    )
                     ->default($this->getOwnerRecord()->id)
                     ->disabled()
                     ->required(),
                 Forms\Components\Select::make('project_id')
-                    ->relationship('project', 'name')
+                    ->relationship(
+                        name: 'project',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn (Builder $query) => $query->whereHas('students', function (Builder $query) {
+                            return $query->where('users.id', auth()->user()->id);
+                        })
+                    )
                     ->reactive()
                     ->afterStateUpdated(fn (callable $set) => $set('rated_student_id', null))
                     ->required(),
