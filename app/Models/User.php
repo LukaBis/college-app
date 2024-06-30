@@ -86,4 +86,9 @@ class User extends Authenticatable
 
         return $intersection->isNotEmpty();
     }
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->name} {$this->surname}";
+    }
 }

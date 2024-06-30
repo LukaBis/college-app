@@ -20,6 +20,10 @@ class Valuation extends Model
             if (is_null($model->student_evaluator_id)) {
                 $model->student_evaluator_id = auth()->user()->id;
             }
+
+            if ($model->self_evaluation) {
+                $model->rated_student_id = auth()->user()->id;
+            }
         });
     }
 

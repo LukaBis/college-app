@@ -9,6 +9,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ValuationsRelationManager extends RelationManager
@@ -181,9 +182,12 @@ class ValuationsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('student_evaluator_id', '=', auth()->user()->id))
             ->recordTitleAttribute('id')
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('evaluator.full_name'),
+                Tables\Columns\TextColumn::make('ratedStudent.full_name'),
             ])
             ->filters([
                 //
