@@ -19,13 +19,7 @@ return new class extends Migration
             $table->foreignId('rated_student_id')->nullable()->constrained('users');
             $table->foreignId('project_id')->constrained();
             $table->boolean('self_evaluation')->default(false);
-            $table->string('mark1');
-            $table->string('mark2');
-            $table->string('mark3');
-            $table->string('mark4');
-            $table->string('mark5');
-            $table->string('mark6');
-            $table->string('mark7');
+            $table->json('valuation');
             $table->text('extra_comment')->nullable();
             $table->timestamps();
         });

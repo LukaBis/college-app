@@ -12,6 +12,10 @@ class Valuation extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'valuation' => 'array',
+    ];
+
     protected static function boot()
     {
         parent::boot();

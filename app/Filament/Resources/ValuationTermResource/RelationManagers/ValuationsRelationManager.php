@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
 
 class ValuationsRelationManager extends RelationManager
 {
@@ -21,162 +22,88 @@ class ValuationsRelationManager extends RelationManager
         return false;
     }
 
+    private function getMarksArray(Collection $marks): array
+    {
+        $marksArray = [];
+
+        foreach($marks->toArray() as $m) {
+            $marksArray[$m["mark"]] = $m["mark"];
+        }
+
+        return $marksArray;
+    }
+
+    private function getMarksDescriptions(Collection $marks): array
+    {
+        $marksArray = [];
+
+        foreach($marks->toArray() as $m) {
+            $marksArray[$m["mark"]] = $m["description"];
+        }
+
+return $marksArray;
+    }
+
     public function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('valuation_term_id')
-                    ->relationship(
-                        name: 'valuationTerm',
-                        titleAttribute: 'title',
-                    )
-                    ->default($this->getOwnerRecord()->id)
-                    ->disabled()
-                    ->required(),
-                Forms\Components\Select::make('project_id')
-                    ->relationship(
-                        name: 'project',
-                        titleAttribute: 'name',
-                        modifyQueryUsing: fn (Builder $query) => $query->whereHas('students', function (Builder $query) {
-                            return $query->where('users.id', auth()->user()->id);
-                        })
-                    )
-                    ->reactive()
-                    ->afterStateUpdated(fn (callable $set) => $set('rated_student_id', null))
-                    ->required(),
-                Forms\Components\Toggle::make('self_evaluation')
-                    ->reactive()
-                    ->required(),
-                Forms\Components\Select::make('rated_student_id')
-                    ->relationship(name: 'ratedStudent', titleAttribute: 'name')
-                    ->options(function (callable $get) {
-                        // given options are only students from the selected project
-                        $projectId = $get('project_id');
+        $questions = $this->getOwnerRecord()->course->questions->select('id', 'title');
+        $marks = $this->getOwnerRecord()->course->marks->select('mark', 'description');
+        $marksArray = $this->getMarksArray($marks);
+        $marksDescriptions = $this->getMarksDescriptions($marks);
 
-                        if ($projectId) {
-                            return User::whereHas('projects', function ($query) use($projectId) {
-                                $query->where('projects.id', '=', $projectId);
-                            })->where('id', '!=', auth()->user()->id)->pluck('name', 'id');
-                        }
-
-                        return [];
+        $schemaArray = [
+            Forms\Components\Select::make('valuation_term_id')
+                ->relationship(
+                    name: 'valuationTerm',
+                    titleAttribute: 'title',
+                )
+                ->default($this->getOwnerRecord()->id)
+                ->disabled()
+                ->required(),
+            Forms\Components\Select::make('project_id')
+                ->relationship(
+                    name: 'project',
+                    titleAttribute: 'name',
+                    modifyQueryUsing: fn (Builder $query) => $query->whereHas('students', function (Builder $query) {
+                        return $query->where('users.id', auth()->user()->id);
                     })
-                    ->disabled(fn (callable $get) => $get('self_evaluation'))
-                    ->required(fn (callable $get) => ! $get('self_evaluation')),
-                Forms\Components\Radio::make('mark1')
-                    ->options([
-                        'A' => 'A',
-                        'B' => 'B',
-                        'C' => 'C',
-                        'D' => 'D'
-                    ])
-                    ->descriptions([
-                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
-                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
-                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
-                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
-                    ])
-                    ->required()
-                    ->columnSpanFull()
-                    ->label('Opci doprinos'),
-                Forms\Components\Radio::make('mark2')
-                    ->options([
-                        'A' => 'A',
-                        'B' => 'B',
-                        'C' => 'C',
-                        'D' => 'D'
-                    ])
-                    ->descriptions([
-                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
-                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
-                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
-                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
-                    ])
-                    ->required()
-                    ->columnSpanFull()
-                    ->label('Rješavanje problema'),
-                Forms\Components\Radio::make('mark3')
-                    ->options([
-                        'A' => 'A',
-                        'B' => 'B',
-                        'C' => 'C',
-                        'D' => 'D'
-                    ])
-                    ->descriptions([
-                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
-                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
-                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
-                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
-                    ])
-                    ->required()
-                    ->columnSpanFull()
-                    ->label('Stav'),
-                Forms\Components\Radio::make('mark4')
-                    ->options([
-                        'A' => 'A',
-                        'B' => 'B',
-                        'C' => 'C',
-                        'D' => 'D'
-                    ])
-                    ->descriptions([
-                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
-                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
-                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
-                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
-                    ])
-                    ->required()
-                    ->columnSpanFull()
-                    ->label('Usredotočenost na zadatak'),
-                Forms\Components\Radio::make('mark5')
-                    ->options([
-                        'A' => 'A',
-                        'B' => 'B',
-                        'C' => 'C',
-                        'D' => 'D'
-                    ])
-                    ->descriptions([
-                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
-                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
-                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
-                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
-                    ])
-                    ->required()
-                    ->columnSpanFull()
-                    ->label('Suradnja s ostalim članovima'),
-                Forms\Components\Radio::make('mark6')
-                    ->options([
-                        'A' => 'A',
-                        'B' => 'B',
-                        'C' => 'C',
-                        'D' => 'D'
-                    ])
-                    ->descriptions([
-                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
-                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
-                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
-                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
-                    ])
-                    ->required()
-                    ->columnSpanFull()
-                    ->label('Sastanci'),
-                Forms\Components\Radio::make('mark7')
-                    ->options([
-                        'A' => 'A',
-                        'B' => 'B',
-                        'C' => 'C',
-                        'D' => 'D'
-                    ])
-                    ->descriptions([
-                        'A' => 'Rutinski daje korisne ideje kada sudjeluje u raspravi. Vođa koji ulaže puno truda.',
-                        'B' => 'Obično daje korisne ideje kada sudjeluje u raspravi. Snažan član tima koji se jako trudi.',
-                        'C' => 'Ponekad daje korisne ideje kada sudjeluje u raspravi. Prolazno zadovoljavajući član tima koji radi ono što mora.',
-                        'D' => 'Rijetko daje korisne ideje kada sudjeluje u raspravi ili zna odbiti sudjelovanje. '
-                    ])
-                    ->required()
-                    ->columnSpanFull()
-                    ->label('Prihvaćanje zadataka i poštivanje rokova'),
-                Forms\Components\TextInput::make('extra_comment')->columnSpanFull(),
-            ]);
+                )
+                ->reactive()
+                ->afterStateUpdated(fn (callable $set) => $set('rated_student_id', null))
+                ->required(),
+            Forms\Components\Toggle::make('self_evaluation')
+                ->reactive()
+                ->required(),
+            Forms\Components\Select::make('rated_student_id')
+                ->relationship(name: 'ratedStudent', titleAttribute: 'name')
+                ->options(function (callable $get) {
+                    // given options are only students from the selected project
+                    $projectId = $get('project_id');
+
+                    if ($projectId) {
+                        return User::whereHas('projects', function ($query) use($projectId) {
+                            $query->where('projects.id', '=', $projectId);
+                        })->where('id', '!=', auth()->user()->id)->pluck('name', 'id');
+                    }
+
+                    return [];
+                })
+                ->disabled(fn (callable $get) => $get('self_evaluation'))
+                ->required(fn (callable $get) => ! $get('self_evaluation')),
+        ];
+
+        foreach ($questions as $question) {
+            $schemaArray[] = Forms\Components\Radio::make('valuation.'.$question['id'])
+                ->options($marksArray)
+                ->descriptions($marksDescriptions)
+                ->required()
+                ->columnSpanFull()
+                ->label($question['title']);
+        }
+
+        $schemaArray[] = Forms\Components\TextInput::make('extra_comment')->columnSpanFull();
+
+        return $form->schema($schemaArray);
     }
 
     public function table(Table $table): Table
