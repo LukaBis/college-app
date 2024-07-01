@@ -41,7 +41,7 @@ class ValuationsRelationManager extends RelationManager
             $marksArray[$m["mark"]] = $m["description"];
         }
 
-return $marksArray;
+        return $marksArray;
     }
 
     public function form(Form $form): Form
@@ -52,7 +52,7 @@ return $marksArray;
         $marksDescriptions = $this->getMarksDescriptions($marks);
 
         $schemaArray = [
-            Forms\Components\Select::make('valuation_term_id')
+            /*Forms\Components\Select::make('valuation_term_id')
                 ->relationship(
                     name: 'valuationTerm',
                     titleAttribute: 'title',
@@ -89,7 +89,7 @@ return $marksArray;
                     return [];
                 })
                 ->disabled(fn (callable $get) => $get('self_evaluation'))
-                ->required(fn (callable $get) => ! $get('self_evaluation')),
+                ->required(fn (callable $get) => ! $get('self_evaluation')),*/
         ];
 
         foreach ($questions as $question) {
@@ -126,10 +126,10 @@ return $marksArray;
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                //Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                //Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->disabled(fn ($record) => $record->valuation !== null)->label('Evaluate'),
                 //Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

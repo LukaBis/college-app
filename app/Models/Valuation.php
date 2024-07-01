@@ -16,21 +16,6 @@ class Valuation extends Model
         'valuation' => 'array',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (is_null($model->student_evaluator_id)) {
-                $model->student_evaluator_id = auth()->user()->id;
-            }
-
-            if ($model->self_evaluation) {
-                $model->rated_student_id = auth()->user()->id;
-            }
-        });
-    }
-
     public function valuationTerm(): BelongsTo
     {
         return $this->belongsTo(ValuationTerm::class);
