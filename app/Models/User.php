@@ -107,4 +107,92 @@ class User extends Authenticatable
     {
         return "{$this->name} {$this->surname}";
     }
+
+    public function pointsInValuationTerm(ValuationTerm $valuationTerm): int
+    {
+        $deactivationDate = Carbon::parse($this->deactivation_date);
+        $termDeadlineDate = Carbon::parse($valuationTerm->term);
+
+        // if student is inactive for this term the return 0
+        if (($this->active === 0) && $deactivationDate->isBefore($termDeadlineDate)) {
+            return 0;
+        }
+
+        $totalPoints = 0;
+
+        $valuationTerm->valuations()
+            ->where([
+                ['rated_student_id', '=', $this->id],
+                ['self_evaluation', '=', false]
+            ])
+            ->get()
+            ->each(function ($valuation) use (&$totalPoints) {
+                $totalPoints += $valuation?->valuation ? $valuation->totalPoints() : 0;
+            });
+
+        return $totalPoints;
+    }
+
+    public function sumOfAllPointsInValuationTerm(ValuationTerm $valuationTerm): int
+    {
+        $course = $valuationTerm->course;
+        $deadline = Carbon::parse($valuationTerm->term);
+        $inactiveStudentIds = User::where([
+                ['active', '=', false],
+                ['deactivation_date', '<', $deadline],
+            ])
+            ->get()
+            ->pluck('id')
+            ->toArray();
+
+        $students = $this->projects()
+            ->where('course_id', '=', $course->id)
+            ->get()
+            ->first()
+            ->students()
+            ->whereNotIn('users.id', $inactiveStudentIds)
+            ->get();
+
+        $sum = 0;
+
+        $students->each(function ($student) use (&$sum, $valuationTerm) {
+            $sum += $student->pointsInValuationTerm($valuationTerm);
+        });
+
+        return $sum;
+    }
+
+    /*
+     * This is not always the same because tem points can vary between
+     * valuation terms due to student inactivity
+     */
+    public function teamPoints(ValuationTerm $valuationTerm)
+    {
+        $course = $valuationTerm->course;
+        $project = $this->projects()->where('course_id', '=', $course->id)->get()->first();
+        $students = $project->students()->get();
+        $numberOfActiveStudents = $this->getActiveStudentsCount($students, $valuationTerm);
+
+        return $project->given_points * $numberOfActiveStudents;
+    }
+
+    private function getActiveStudentsCount(Collection $students, ValuationTerm $valuationTerm): int
+    {
+        $activeStudent = $students->filter(function ($student) use ($valuationTerm) {
+            if ($student->active) {
+                return true;
+            }
+
+            $deactivationDate = Carbon::parse($student->deactivation_date);
+            $termDeadlineDate = Carbon::parse($valuationTerm->term);
+
+            if (($student->active === 0) && $deactivationDate->isBefore($termDeadlineDate)) {
+                return false;
+            }
+
+            return true;
+        });
+
+        return $activeStudent->count();
+    }
 }
