@@ -40,6 +40,7 @@ class StudentsRelationManager extends RelationManager
                     ->relationship('roles', 'name')
                     ->default(Role::where('name', 'Student')->first()->id)
                     ->disabled(auth()->user()->hasRole('Student')),
+                Forms\Components\DateTimePicker::make('deactivation_date')->disabled(),
             ]);
     }
 

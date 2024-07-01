@@ -48,6 +48,7 @@ class UserResource extends Resource
                     ->preload()
                     ->relationship('roles', 'name')
                     ->disabled(auth()->user()->hasRole('Student')),
+                Forms\Components\DateTimePicker::make('deactivation_date')->disabled(),
             ]);
     }
 

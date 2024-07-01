@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,6 +55,21 @@ class User extends Authenticatable
     ];
 
     public bool $processingUpdate = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($student) {
+            // Check if the 'active' field is being set to false
+            if ($student->isDirty('active') && $student->active === false) {
+                $student->withoutEvents(function () use ($student) {
+                    $student->deactivation_date = Carbon::now()->setTimezone('Europe/Zagreb');
+                    $student->save();
+                });
+            }
+        });
+    }
 
     /* these are courses that this user (course admin) manages */
     public function course(): BelongsToMany

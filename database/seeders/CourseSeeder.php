@@ -8,8 +8,10 @@ use App\Models\Mark;
 use App\Models\Meeting;
 use App\Models\Project;
 use App\Models\Question;
+use App\Models\User;
 use Database\Factories\MarkFactory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class CourseSeeder extends Seeder
 {
@@ -39,5 +41,42 @@ class CourseSeeder extends Seeder
                 'course_id' => $course->id,
             ]);
         });
+
+        $this->createCourseAdmin();
+    }
+
+    private function createCourseAdmin()
+    {
+        $courseAdmin = User::create([
+            'name' => 'CA pero',
+            'surname' => 'peric',
+            'email' => 'pero@email.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        $courseAdmin->assignRole('Course Admin');
+
+        $oneCourse = Course::factory()->create();
+        $oneCourse->admins()->attach($courseAdmin->id);
+
+        Project::factory(3)->create([
+            'course_id' => $oneCourse->id,
+        ])->each(function ($project) {
+            Meeting::factory(3)->create([
+                'project_id' => $project->id,
+            ]);
+
+            Activity::factory(3)->create([
+                'project_id' => $project->id,
+            ]);
+        });
+
+        Mark::factory(5)->create([
+            'course_id' => $oneCourse->id,
+        ]);
+
+        Question::factory(4)->create([
+            'course_id' => $oneCourse->id,
+        ]);
     }
 }
