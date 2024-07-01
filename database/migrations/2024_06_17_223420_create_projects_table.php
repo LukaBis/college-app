@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('max_students')->default(4);
             $table->foreignId('course_id')->constrained();
             $table->integer('max_points')->default(0);
+            $table->integer('given_points')->default(0);
             $table->timestamps();
         });
     }
