@@ -166,7 +166,7 @@ class User extends Authenticatable
      * This is not always the same because tem points can vary between
      * valuation terms due to student inactivity
      */
-    public function teamPoints(ValuationTerm $valuationTerm)
+    public function teamPoints(ValuationTerm $valuationTerm): int
     {
         $course = $valuationTerm->course;
         $project = $this->projects()->where('course_id', '=', $course->id)->get()->first();
@@ -174,6 +174,33 @@ class User extends Authenticatable
         $numberOfActiveStudents = $this->getActiveStudentsCount($students, $valuationTerm);
 
         return $project->given_points * $numberOfActiveStudents;
+    }
+
+    public function finalValuationTermPoints(ValuationTerm $valuationTerm)
+    {
+        $teamPoints = $this->teamPoints($valuationTerm);
+        $sumOfAllStudentsPoints = $this->sumOfAllPointsInValuationTerm($valuationTerm);
+        $thisStudentPoints = $this->pointsInValuationTerm($valuationTerm);
+
+        return ($teamPoints / $sumOfAllStudentsPoints) * $thisStudentPoints;
+    }
+
+    public function getFinalPointsOfAllValuationTerms(Course $course)
+    {
+        if (! $this->attendingCourse->contains($course)) {
+            throw new \Exception('Student does not attend this course');
+        }
+
+        $totalPoints = 0;
+        $count = 0;
+        $validationTerms = $course->valuationTerms;
+
+        $validationTerms->each(function ($validationTerm) use (&$totalPoints, &$count) {
+            $totalPoints += $this->finalValuationTermPoints($validationTerm);
+            $count += 1;
+        });
+
+        return $totalPoints / $count;
     }
 
     private function getActiveStudentsCount(Collection $students, ValuationTerm $valuationTerm): int
