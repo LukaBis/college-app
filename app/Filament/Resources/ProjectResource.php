@@ -42,6 +42,11 @@ class ProjectResource extends Resource
                                     ->numeric()
                                     ->label('Max Number of Students')
                                     ->disabled(auth()->user()->hasRole('Student')),
+                                Forms\Components\TextInput::make('max_points')
+                                    ->required()
+                                    ->numeric()
+                                    ->label('Max Possible Points')
+                                    ->disabled(auth()->user()->hasRole('Student')),
                             ]),
                         Tabs\Tab::make('Documentation')
                             ->schema([
