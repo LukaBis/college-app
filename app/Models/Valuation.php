@@ -35,4 +35,27 @@ class Valuation extends Model
     {
         return $this->belongsTo(User::class, 'rated_student_id');
     }
+
+    public function totalPoints(): int
+    {
+        $givenMarks = array_values($this->valuation);
+        $courseMarks = $this->project->course->marks->pluck('mark', 'points');
+
+        // Create a map of marks to points
+        $marksToPoints = [];
+        foreach ($courseMarks as $points => $mark) {
+            $marksToPoints[$mark] = $points;
+        }
+
+        // Calculate total points
+        $totalPoints = 0;
+        foreach ($givenMarks as $mark) {
+            if (isset($marksToPoints[$mark])) {
+                $totalPoints += $marksToPoints[$mark];
+            }
+        }
+
+        return $totalPoints;
+    }
+
 }
