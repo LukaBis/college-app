@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CourseResource\Pages;
 use App\Filament\Resources\CourseResource\RelationManagers;
 use App\Filament\Resources\CourseResource\RelationManagers\ProjectsRelationManager;
+use App\Filament\Resources\CourseResource\Widgets\ValuationOverviewTable;
 use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -103,6 +104,13 @@ class CourseResource extends Resource
             'create' => Pages\CreateCourse::route('/create'),
             'edit' => Pages\EditCourse::route('/{record}/edit'),
             'view' => Pages\ViewCourse::route('/{record}'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            ValuationOverviewTable::class,
         ];
     }
 }

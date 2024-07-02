@@ -178,6 +178,11 @@ class User extends Authenticatable
 
     public function finalValuationTermPoints(ValuationTerm $valuationTerm)
     {
+        // check if student has any project, if not return 0
+        if ($this->projects()->count() === 0) {
+            return 0;
+        }
+
         $teamPoints = $this->teamPoints($valuationTerm);
         $sumOfAllStudentsPoints = $this->sumOfAllPointsInValuationTerm($valuationTerm);
         $thisStudentPoints = $this->pointsInValuationTerm($valuationTerm);
@@ -187,6 +192,11 @@ class User extends Authenticatable
 
     public function getFinalPointsOfAllValuationTerms(Course $course)
     {
+        // check if student has any project, if not return 0
+        if ($this->projects()->count() === 0) {
+            return 0;
+        }
+
         if (! $this->attendingCourse->contains($course)) {
             throw new \Exception('Student does not attend this course');
         }

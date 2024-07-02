@@ -21,4 +21,11 @@ class EditCourse extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            CourseResource\Widgets\ValuationOverviewTable::make(),
+        ];
+    }
 }
