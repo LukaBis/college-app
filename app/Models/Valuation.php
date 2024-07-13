@@ -57,5 +57,4 @@ class Valuation extends Model
 
         return $totalPoints;
     }
-
 }

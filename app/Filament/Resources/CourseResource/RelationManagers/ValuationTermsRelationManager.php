@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\CourseResource\RelationManagers;
 
-use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;

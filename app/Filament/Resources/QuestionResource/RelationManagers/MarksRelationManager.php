@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\CourseResource\RelationManagers;
+namespace App\Filament\Resources\QuestionResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -9,16 +9,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Database\Eloquent\Model;
 
 class MarksRelationManager extends RelationManager
 {
     protected static string $relationship = 'marks';
-
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return ! auth()->user()->hasRole('Student');
-    }
 
     public function form(Form $form): Form
     {

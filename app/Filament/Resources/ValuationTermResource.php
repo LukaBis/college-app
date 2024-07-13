@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ValuationTermResource\Pages;
 use App\Filament\Resources\ValuationTermResource\RelationManagers\ValuationsRelationManager;
-use App\Filament\Resources\ValueationTermResource\Pages\ViewValuationTerm;
 use App\Models\ValuationTerm;
 use Filament\Forms;
 use Filament\Forms\Form;

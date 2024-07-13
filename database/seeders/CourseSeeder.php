@@ -9,7 +9,6 @@ use App\Models\Meeting;
 use App\Models\Project;
 use App\Models\Question;
 use App\Models\User;
-use Database\Factories\MarkFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,13 +32,15 @@ class CourseSeeder extends Seeder
                 ]);
             });
 
-            Mark::factory(5)->create([
+            $questions = Question::factory(4)->create([
                 'course_id' => $course->id,
             ]);
 
-            Question::factory(4)->create([
-                'course_id' => $course->id,
-            ]);
+            $questions->each(function ($question) {
+                Mark::factory(4)->create([
+                    'question_id' => $question->id,
+                ]);
+            });
         });
 
         $this->createCourseAdmin();
@@ -71,12 +72,14 @@ class CourseSeeder extends Seeder
             ]);
         });
 
-        Mark::factory(5)->create([
+        $questions = Question::factory(4)->create([
             'course_id' => $oneCourse->id,
         ]);
 
-        Question::factory(4)->create([
-            'course_id' => $oneCourse->id,
-        ]);
+        $questions->each(function ($question) {
+            Mark::factory(4)->create([
+                'question_id' => $question->id,
+            ]);
+        });
     }
 }

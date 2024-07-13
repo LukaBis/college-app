@@ -12,7 +12,7 @@ class Mark extends Model
 
     protected $guarded = [];
 
-    public function course():BelongsTo
+    public function question(): BelongsTo
     {
         $this->belongsTo(Course::class);
     }

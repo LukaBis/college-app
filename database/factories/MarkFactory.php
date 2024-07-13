@@ -17,7 +17,7 @@ class MarkFactory extends Factory
     public function definition(): array
     {
         return [
-            'mark' => collect(['A', 'B','C','D', 'E','F'])->random(),
+            'mark' => collect(['A', 'B', 'C', 'D', 'E', 'F'])->random(),
             'description' => $this->faker->text(),
             'points' => $this->faker->randomDigit(),
         ];

@@ -91,9 +91,6 @@ class User extends Authenticatable
     /**
      * This method checks if this user is part of at least one
      * of the projects given in projects collection param.
-     *
-     * @param Collection $projects
-     * @return bool
      */
     public function attendsProjects(Collection $projects): bool
     {
@@ -123,7 +120,7 @@ class User extends Authenticatable
         $valuationTerm->valuations()
             ->where([
                 ['rated_student_id', '=', $this->id],
-                ['self_evaluation', '=', false]
+                ['self_evaluation', '=', false],
             ])
             ->get()
             ->each(function ($valuation) use (&$totalPoints) {
@@ -138,9 +135,9 @@ class User extends Authenticatable
         $course = $valuationTerm->course;
         $deadline = Carbon::parse($valuationTerm->term);
         $inactiveStudentIds = User::where([
-                ['active', '=', false],
-                ['deactivation_date', '<', $deadline],
-            ])
+            ['active', '=', false],
+            ['deactivation_date', '<', $deadline],
+        ])
             ->get()
             ->pluck('id')
             ->toArray();

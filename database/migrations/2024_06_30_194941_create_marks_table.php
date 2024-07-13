@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('mark');
             $table->text('description');
             $table->integer('points');
-            $table->foreignId('course_id')->constrained();
+            $table->foreignId('question_id')->constrained();
             $table->timestamps();
         });
     }

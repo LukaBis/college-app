@@ -89,7 +89,7 @@ class CourseResource extends Resource
         return [
             RelationGroup::make('Valuation Setup', [
                 RelationManagers\QuestionsRelationManager::class,
-                RelationManagers\MarksRelationManager::class,
+                //RelationManagers\MarksRelationManager::class,
             ]),
             RelationManagers\StudentsRelationManager::class,
             ProjectsRelationManager::class,

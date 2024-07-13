@@ -9,8 +9,6 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
 
 class ValuationsRelationManager extends RelationManager
@@ -26,8 +24,8 @@ class ValuationsRelationManager extends RelationManager
     {
         $marksArray = [];
 
-        foreach($marks->toArray() as $m) {
-            $marksArray[$m["mark"]] = $m["mark"];
+        foreach ($marks->toArray() as $m) {
+            $marksArray[$m['mark']] = $m['mark'];
         }
 
         return $marksArray;
@@ -37,8 +35,8 @@ class ValuationsRelationManager extends RelationManager
     {
         $marksArray = [];
 
-        foreach($marks->toArray() as $m) {
-            $marksArray[$m["mark"]] = $m["description"];
+        foreach ($marks->toArray() as $m) {
+            $marksArray[$m['mark']] = $m['description'];
         }
 
         return $marksArray;
