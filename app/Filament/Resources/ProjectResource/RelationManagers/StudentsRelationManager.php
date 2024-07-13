@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
 use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -38,10 +39,13 @@ class StudentsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
+                    ->attachAnother(false)
                     ->preloadRecordSelect()
                     ->recordTitle(fn (User $record): string => "{$record->name} {$record->surname} ({$record->email})")
                     ->disabled($this->getOwnerRecord()->max_students <= $this->getOwnerRecord()->students()->count() | auth()->user()->hasRole('Student'))
-                    ->label('Add student to this project'),
+                    ->label('Add student to this project')
+                    ->modalSubmitActionLabel('Add student')
+                    ->slideOver(),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make()->disabled(auth()->user()->hasRole('Student'))->label('Remove from project'),
