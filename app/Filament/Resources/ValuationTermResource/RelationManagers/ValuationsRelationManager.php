@@ -44,56 +44,12 @@ class ValuationsRelationManager extends RelationManager
 
     public function form(Form $form): Form
     {
-        $questions = $this->getOwnerRecord()->course->questions->select('id', 'title');
-        $marks = $this->getOwnerRecord()->course->marks->select('mark', 'description');
-        $marksArray = $this->getMarksArray($marks);
-        $marksDescriptions = $this->getMarksDescriptions($marks);
-
-        $schemaArray = [
-            /*Forms\Components\Select::make('valuation_term_id')
-                ->relationship(
-                    name: 'valuationTerm',
-                    titleAttribute: 'title',
-                )
-                ->default($this->getOwnerRecord()->id)
-                ->disabled()
-                ->required(),
-            Forms\Components\Select::make('project_id')
-                ->relationship(
-                    name: 'project',
-                    titleAttribute: 'name',
-                    modifyQueryUsing: fn (Builder $query) => $query->whereHas('students', function (Builder $query) {
-                        return $query->where('users.id', auth()->user()->id);
-                    })
-                )
-                ->reactive()
-                ->afterStateUpdated(fn (callable $set) => $set('rated_student_id', null))
-                ->required(),
-            Forms\Components\Toggle::make('self_evaluation')
-                ->reactive()
-                ->required(),
-            Forms\Components\Select::make('rated_student_id')
-                ->relationship(name: 'ratedStudent', titleAttribute: 'name')
-                ->options(function (callable $get) {
-                    // given options are only students from the selected project
-                    $projectId = $get('project_id');
-
-                    if ($projectId) {
-                        return User::whereHas('projects', function ($query) use($projectId) {
-                            $query->where('projects.id', '=', $projectId);
-                        })->where('id', '!=', auth()->user()->id)->pluck('name', 'id');
-                    }
-
-                    return [];
-                })
-                ->disabled(fn (callable $get) => $get('self_evaluation'))
-                ->required(fn (callable $get) => ! $get('self_evaluation')),*/
-        ];
+        $questions = $this->getOwnerRecord()->course->questions()->with('marks')->select('id', 'title')->get();
 
         foreach ($questions as $question) {
             $schemaArray[] = Forms\Components\Radio::make('valuation.'.$question['id'])
-                ->options($marksArray)
-                ->descriptions($marksDescriptions)
+                ->options($this->getMarksArray($question->marks))
+                ->descriptions($this->getMarksDescriptions($question->marks))
                 ->required()
                 ->columnSpanFull()
                 ->label($question['title']);
