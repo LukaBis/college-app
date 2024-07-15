@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class CourseResource extends Resource
 {
@@ -38,7 +39,6 @@ class CourseResource extends Resource
                 Forms\Components\FileUpload::make('student_file')
                     ->disk('student-files')
                     ->label('Upload Student Files')
-                    ->hint('Refresh the page after file is uploaded!')
                     ->acceptedFileTypes(['text/csv', 'text/plain'])
                     ->disabled(auth()->user()->hasRole('Student')),
             ]);
