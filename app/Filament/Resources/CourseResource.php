@@ -86,10 +86,24 @@ class CourseResource extends Resource
 
     public static function getRelations(): array
     {
+        $user = auth()->user();
+
+        if (isset($user)) {
+            if ($user->hasRole('Student')) {
+                // omit Student relation manager
+                return [
+                    RelationGroup::make('Valuation Setup', [
+                        RelationManagers\QuestionsRelationManager::class,
+                    ]),
+                    ProjectsRelationManager::class,
+                    RelationManagers\ValuationTermsRelationManager::class,
+                ];
+            }
+        }
+
         return [
             RelationGroup::make('Valuation Setup', [
                 RelationManagers\QuestionsRelationManager::class,
-                //RelationManagers\MarksRelationManager::class,
             ]),
             RelationManagers\StudentsRelationManager::class,
             ProjectsRelationManager::class,
