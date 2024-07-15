@@ -34,6 +34,27 @@ class ProjectsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+        $actions = [];
+
+        $adminActions = [
+            Tables\Actions\EditAction::make()
+                ->url(fn ($record) => '/admin/projects/'.$record->id.'/edit')
+                ->label('More')->icon(null),
+            Tables\Actions\DeleteAction::make(),
+        ];
+
+        $studentActions = [
+            Tables\Actions\ViewAction::make()->url(fn ($record) => '/admin/projects/'.$record->id),
+        ];
+
+        if (auth()->user()->hasRole('Course Admin')) {
+            $actions = $adminActions;
+        }
+
+        if (auth()->user()->hasRole('Student')) {
+            $actions = $studentActions;
+        }
+
         return $table
             ->recordTitleAttribute('name')
             ->columns([
@@ -46,13 +67,7 @@ class ProjectsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make()
-                    ->url(fn ($record) => '/admin/projects/'.$record->id.'/edit')
-                    ->label('More')->icon(null),
-                Tables\Actions\DeleteAction::make(),
-                //Tables\Actions\ViewAction::make()->url(fn ($record) => '/admin/projects/'.$record->id),
-            ])
+            ->actions($actions)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     //
