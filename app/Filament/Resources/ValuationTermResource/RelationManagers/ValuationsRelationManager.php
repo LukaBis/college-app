@@ -10,6 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Filament\Tables\Columns\IconColumn;
 
 class ValuationsRelationManager extends RelationManager
 {
@@ -75,6 +76,9 @@ class ValuationsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('evaluator.full_name'),
                 Tables\Columns\TextColumn::make('ratedStudent.full_name'),
+                IconColumn::make('is_filled')
+                    ->boolean()
+                    ->label('Done'),
             ])
             ->filters([
                 //

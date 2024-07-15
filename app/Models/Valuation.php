@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Valuation extends Model
 {
@@ -15,6 +16,13 @@ class Valuation extends Model
     protected $casts = [
         'valuation' => 'array',
     ];
+
+    protected function isFilled(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->valuation !== null,
+        );
+    }
 
     public function valuationTerm(): BelongsTo
     {
