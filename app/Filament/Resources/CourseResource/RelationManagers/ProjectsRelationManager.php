@@ -13,6 +13,11 @@ class ProjectsRelationManager extends RelationManager
 {
     protected static string $relationship = 'projects';
 
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
     public function form(Form $form): Form
     {
         return $form

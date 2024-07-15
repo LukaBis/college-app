@@ -46,6 +46,24 @@ class CourseResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $actions = [];
+
+        $adminActions = [
+            Tables\Actions\EditAction::make()->label('More')->icon(null),
+        ];
+
+        $studentActions = [
+            Tables\Actions\ViewAction::make(),
+        ];
+
+        if (auth()->user()->hasRole('Student')) {
+            $actions = $studentActions;
+        }
+
+        if (auth()->user()->hasRole('Course Admin')) {
+            $actions = $adminActions;
+        }
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
@@ -53,9 +71,7 @@ class CourseResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make()->label('More')->icon(null),
-            ])
+            ->actions($actions)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     //
