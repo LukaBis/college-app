@@ -209,9 +209,11 @@ class User extends Authenticatable
         $totalPoints = 0;
         $count = 0;
         $validationTerms = $course->valuationTerms;
+        $negativePoints = 0;
 
-        $validationTerms->each(function ($validationTerm) use (&$totalPoints, &$count) {
+        $validationTerms->each(function ($validationTerm) use (&$totalPoints, &$count, $course, &$negativePoints) {
             $totalPoints += $this->finalValuationTermPoints($validationTerm);
+            $negativePoints += $this->valuationTermNegativePoints($validationTerm, $course);
             $count += 1;
         });
 
@@ -219,7 +221,7 @@ class User extends Authenticatable
             return 0;
         }
 
-        return $totalPoints / $count;
+        return ($totalPoints / $count) - $negativePoints;
     }
 
     private function getActiveStudentsCount(Collection $students, ValuationTerm $valuationTerm): int
@@ -240,5 +242,35 @@ class User extends Authenticatable
         });
 
         return $activeStudent->count();
+    }
+
+    /**
+     * User has his/her valuations that belong to some valuation term. If even one of those
+     * valuations is created after the valuation term deadline, then user gets negative points.
+     *
+     * @param ValuationTerm $valuationTerm
+     * @return int
+     */
+    public function valuationTermNegativePoints(ValuationTerm $valuationTerm, Course $course): int
+    {
+        if (! $this->attendingCourse->contains($course)) {
+            throw new \Exception('Student does not attend this course');
+        }
+
+        // for each valuation where this user is evaluator and where valuation belongs to
+        // given valuation term, check if each valuation is created before the deadline
+        $valuations = Valuation::where('student_evaluator_id', '=', $this->id)
+            ->where('valuation_term_id', '=', $valuationTerm->id)
+            ->get();
+
+        $deadline = Carbon::parse($valuationTerm->term);
+
+        foreach ($valuations as $valuation) {
+            if (! $valuation->created_at->isBefore($deadline)) {
+                return 5; // replace with valuation Term negative point
+            }
+        }
+
+        return 0;
     }
 }
