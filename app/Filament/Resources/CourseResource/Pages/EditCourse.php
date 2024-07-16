@@ -25,7 +25,7 @@ class EditCourse extends EditRecord
     protected function getFooterWidgets(): array
     {
         return [
-            //CourseResource\Widgets\ValuationOverviewTable::make(),
+            CourseResource\Widgets\ValuationOverviewTable::make(),
         ];
     }
 }

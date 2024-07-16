@@ -50,21 +50,41 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($record->students as $student)
+            @if(auth()->user()->hasRole('Student'))
                 <tr>
                     <td>
-                        {{ $student->full_name }}
+                        {{ auth()->user()->full_name }}
                     </td>
                     @foreach($record->valuationTerms as $valuationTerm)
                         <td>
-                            {{ $student->finalValuationTermPoints($valuationTerm) }}
+                            {{ auth()->user()->finalValuationTermPoints($valuationTerm) }}
                         </td>
                     @endforeach
                     <td>
-                        {{ $student->getFinalPointsOfAllValuationTerms($record) }}
+                        {{ auth()->user()->getFinalPointsOfAllValuationTerms($record) }}
                     </td>
                 </tr>
-            @endforeach
+            @else
+                @foreach($record->students as $student)
+                    <tr
+                        @if(! $student->active)
+                            style="color: red;"
+                        @endif
+                    >
+                        <td>
+                            {{ $student->full_name }}
+                        </td>
+                        @foreach($record->valuationTerms as $valuationTerm)
+                            <td>
+                                {{ $student->finalValuationTermPoints($valuationTerm) }}
+                            </td>
+                        @endforeach
+                        <td>
+                            {{ $student->getFinalPointsOfAllValuationTerms($record) }}
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
             </tbody>
         </table>
     </x-filament::section>

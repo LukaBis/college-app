@@ -44,25 +44,38 @@ class Valuation extends Model
         return $this->belongsTo(User::class, 'rated_student_id');
     }
 
+    /**
+     * Valuation field is json object. Key is id of the question and value is given mark.
+     * This method returns sum of points from this single valuation.
+     *
+     * @return int
+     */
     public function totalPoints(): int
     {
-        $givenMarks = array_values($this->valuation);
-        $courseMarks = $this->project->course->marks->pluck('mark', 'points');
-
-        // Create a map of marks to points
-        $marksToPoints = [];
-        foreach ($courseMarks as $points => $mark) {
-            $marksToPoints[$mark] = $points;
-        }
-
-        // Calculate total points
+        // Initialize total points to 0
         $totalPoints = 0;
-        foreach ($givenMarks as $mark) {
-            if (isset($marksToPoints[$mark])) {
-                $totalPoints += $marksToPoints[$mark];
+
+        // Decode the valuation JSON field to an associative array
+        $valuation = $this->valuation;
+
+        // Loop through each key-value pair in the valuation array
+        foreach ($valuation as $questionId => $markValue) {
+            // Find the question by its ID
+            $question = Question::find($questionId);
+
+            // If the question exists
+            if ($question) {
+                // Find the mark related to this question that matches the mark value
+                $mark = $question->marks()->where('mark', $markValue)->first();
+
+                // If the mark exists, add its points to the total points
+                if ($mark) {
+                    $totalPoints += $mark->points;
+                }
             }
         }
 
+        // Return the total points
         return $totalPoints;
     }
 }

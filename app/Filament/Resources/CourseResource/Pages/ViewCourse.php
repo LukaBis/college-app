@@ -8,4 +8,11 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewCourse extends ViewRecord
 {
     protected static string $resource = CourseResource::class;
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            CourseResource\Widgets\ValuationOverviewTable::make(),
+        ];
+    }
 }

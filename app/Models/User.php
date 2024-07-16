@@ -184,6 +184,10 @@ class User extends Authenticatable
         $sumOfAllStudentsPoints = $this->sumOfAllPointsInValuationTerm($valuationTerm);
         $thisStudentPoints = $this->pointsInValuationTerm($valuationTerm);
 
+        if ($sumOfAllStudentsPoints === 0) {
+            return 0;
+        }
+
         return ($teamPoints / $sumOfAllStudentsPoints) * $thisStudentPoints;
     }
 
@@ -191,6 +195,10 @@ class User extends Authenticatable
     {
         // check if student has any project, if not return 0
         if ($this->projects()->count() === 0) {
+            return 0;
+        }
+
+        if (! $this->active) {
             return 0;
         }
 
@@ -206,6 +214,10 @@ class User extends Authenticatable
             $totalPoints += $this->finalValuationTermPoints($validationTerm);
             $count += 1;
         });
+
+        if ($count === 0) {
+            return 0;
+        }
 
         return $totalPoints / $count;
     }

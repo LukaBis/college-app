@@ -87,7 +87,9 @@ class ValuationsRelationManager extends RelationManager
                 //Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->disabled(fn ($record) => $record->valuation !== null)->label('Evaluate'),
+                Tables\Actions\EditAction::make()
+                    ->disabled(fn ($record) => $record->valuation !== null | ! auth()->user()->active)
+                    ->label('Evaluate'),
                 //Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
