@@ -29,6 +29,11 @@ class ValuationTermsRelationManager extends RelationManager
                     ->required()
                     ->hint('For example: Deadline1 or Deadline2')
                     ->disabled(auth()->user()->hasRole('Student')),
+                Forms\Components\TextInput::make('negative_points')
+                    ->required()
+                    ->numeric()
+                    ->hint('Negative points for student if miss deadline')
+                    ->disabled(auth()->user()->hasRole('Student')),
             ]);
     }
 

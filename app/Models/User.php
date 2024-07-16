@@ -267,7 +267,7 @@ class User extends Authenticatable
 
         foreach ($valuations as $valuation) {
             if (! $valuation->created_at->isBefore($deadline)) {
-                return 5; // replace with valuation Term negative point
+                return $valuationTerm->negative_points;
             }
         }
 
