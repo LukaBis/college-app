@@ -215,6 +215,7 @@ class User extends Authenticatable
         $count = 0;
         $validationTerms = $course->valuationTerms;
         $negativePoints = 0;
+        $negativePointsFromCustomDeadlines = 0;
 
         $validationTerms->each(function ($validationTerm) use (&$totalPoints, &$count, $course, &$negativePoints) {
             $totalPoints += $this->finalValuationTermPoints($validationTerm);
@@ -222,11 +223,15 @@ class User extends Authenticatable
             $count += 1;
         });
 
+        $course->customDeadlines->each(function ($customDeadline) use (&$negativePointsFromCustomDeadlines) {
+            $negativePointsFromCustomDeadlines += $this->negativePointsFromCustomDeadline($customDeadline);
+        });
+
         if ($count === 0) {
             return 0;
         }
 
-        return ($totalPoints / $count) - $negativePoints;
+        return ($totalPoints / $count) - $negativePoints - $negativePointsFromCustomDeadlines;
     }
 
     private function getActiveStudentsCount(Collection $students, ValuationTerm $valuationTerm): int
