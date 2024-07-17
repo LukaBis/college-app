@@ -48,4 +48,9 @@ class Course extends Model
     {
         return $this->hasMany(Mark::class);
     }
+
+    public function customDeadlines(): HasMany
+    {
+        return $this->hasMany(CustomDeadline::class);
+    }
 }
