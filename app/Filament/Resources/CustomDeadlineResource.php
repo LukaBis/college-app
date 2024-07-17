@@ -19,6 +19,8 @@ class CustomDeadlineResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -29,9 +31,6 @@ class CustomDeadlineResource extends Resource
                 Forms\Components\DatePicker::make('date')
                     ->required(),
                 Forms\Components\TextInput::make('negative_points')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('course_id')
                     ->required()
                     ->numeric(),
             ]);

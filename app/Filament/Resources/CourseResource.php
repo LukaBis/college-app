@@ -124,6 +124,7 @@ class CourseResource extends Resource
             RelationManagers\StudentsRelationManager::class,
             ProjectsRelationManager::class,
             RelationManagers\ValuationTermsRelationManager::class,
+            RelationManagers\CustomDeadlinesRelationManager::class,
         ];
     }
 

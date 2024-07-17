@@ -88,6 +88,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id')->withPivot('team_lead');
     }
 
+    public function customDeadlines(): BelongsToMany
+    {
+        return $this->belongsToMany(CustomDeadline::class, 'custom_deadline_user', 'user_id', 'custom_deadline_id');
+    }
+
     /**
      * This method checks if this user is part of at least one
      * of the projects given in projects collection param.
