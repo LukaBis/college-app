@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('custom_deadline_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->boolean('applied')->default(false);
             $table->timestamps();
         });
     }

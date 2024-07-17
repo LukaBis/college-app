@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomDeadlineResource\Pages;
-use App\Filament\Resources\CustomDeadlineResource\RelationManagers;
+use App\Filament\Resources\CustomDeadlineResource\RelationManagers\CustomDeadlineUserPivotRelationManager;
 use App\Models\CustomDeadline;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -77,7 +77,7 @@ class CustomDeadlineResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CustomDeadlineUserPivotRelationManager::class,
         ];
     }
 
