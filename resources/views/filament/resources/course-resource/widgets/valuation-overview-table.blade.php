@@ -65,6 +65,11 @@
                             {{ auth()->user()->finalValuationTermPoints($valuationTerm) }}
                         </td>
                     @endforeach
+                    @foreach($record->valuationTerms as $valuationTerm)
+                        <td>
+                            {{ auth()->user()->valuationTermNegativePoints($valuationTerm, $record) }}
+                        </td>
+                    @endforeach
                     <td>
                         {{ auth()->user()->getFinalPointsOfAllValuationTerms($record) }}
                     </td>
