@@ -63,6 +63,9 @@
                         </th>
                     @endforeach
                     <th>
+                        <h3>Total negative points</h3>
+                    </th>
+                    <th>
                         <h3>Final</h3>
                     </th>
                 </tr>
@@ -91,6 +94,9 @@
                                     {{ auth()->user()->negativePointsFromCustomDeadline($customDeadline) }}
                                 </td>
                             @endforeach
+                            <td>
+                                {{ auth()->user()->getSumOfAllNegativePoints($record) }}
+                            </td>
                             <td>
                                 {{ auth()->user()->getFinalPointsOfAllValuationTerms($record) }}
                             </td>
@@ -123,6 +129,9 @@
                                         {{ $student->negativePointsFromCustomDeadline($customDeadline) }}
                                     </td>
                                 @endforeach
+                                <td>
+                                    {{ $student->getSumOfAllNegativePoints($record) }}
+                                </td>
                                 <td>
                                     {{ $student->getFinalPointsOfAllValuationTerms($record) }}
                                 </td>
