@@ -49,6 +49,9 @@
                             <h3>{{ $valuationTerm->title.' ('.$valuationTerm->term.')'  }}</h3>
                         </th>
                     @endforeach
+                    <th>
+                        <h3>Average</h3>
+                    </th>
                     @foreach($record->valuationTerms as $valuationTerm)
                         <th>
                             <h3>{{ $valuationTerm->title.' (negative points)'  }}</h3>
@@ -75,6 +78,9 @@
                                     {{ auth()->user()->finalValuationTermPoints($valuationTerm) }}
                                 </td>
                             @endforeach
+                            <td>
+                                {{ auth()->user()->averageValuationTermPoints($record) }}
+                            </td>
                             @foreach($record->valuationTerms as $valuationTerm)
                                 <td>
                                     {{ auth()->user()->valuationTermNegativePoints($valuationTerm, $record) }}
@@ -104,6 +110,9 @@
                                         {{ $student->finalValuationTermPoints($valuationTerm) }}
                                     </td>
                                 @endforeach
+                                <td>
+                                    {{ $student->averageValuationTermPoints($record) }}
+                                </td>
                                 @foreach($record->valuationTerms as $valuationTerm)
                                     <td>
                                         {{ $student->valuationTermNegativePoints($valuationTerm, $record) }}

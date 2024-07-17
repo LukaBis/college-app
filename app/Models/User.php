@@ -234,6 +234,37 @@ class User extends Authenticatable
         return ($totalPoints / $count) - $negativePoints - $negativePointsFromCustomDeadlines;
     }
 
+    public function averageValuationTermPoints(Course $course)
+    {
+        // check if student has any project, if not return 0
+        if ($this->projects()->count() === 0) {
+            return 0;
+        }
+
+        if (! $this->active) {
+            return 0;
+        }
+
+        if (! $this->attendingCourse->contains($course)) {
+            throw new \Exception('Student does not attend this course');
+        }
+
+        $totalPoints = 0;
+        $count = 0;
+        $validationTerms = $course->valuationTerms;
+
+        $validationTerms->each(function ($validationTerm) use (&$totalPoints, &$count, $course) {
+            $totalPoints += $this->finalValuationTermPoints($validationTerm);
+            $count += 1;
+        });
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        return ($totalPoints / $count);
+    }
+
     private function getActiveStudentsCount(Collection $students, ValuationTerm $valuationTerm): int
     {
         $activeStudent = $students->filter(function ($student) use ($valuationTerm) {
