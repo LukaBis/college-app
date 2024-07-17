@@ -278,4 +278,18 @@ class User extends Authenticatable
 
         return 0;
     }
+
+    public function negativePointsFromCustomDeadline(CustomDeadline $customDeadline): int
+    {
+        $exists = CustomDeadlineUser::where('custom_deadline_id', '=', $customDeadline->id)
+            ->where('user_id', '=', $this->id)
+            ->where('applied', '=', true)
+            ->exists();
+
+        if ($exists) {
+            return $customDeadline->negative_points;
+        }
+
+        return 0;
+    }
 }

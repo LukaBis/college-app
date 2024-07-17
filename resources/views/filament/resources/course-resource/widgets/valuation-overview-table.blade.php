@@ -54,6 +54,11 @@
                             <h3>{{ $valuationTerm->title.' (negative points)'  }}</h3>
                         </th>
                     @endforeach
+                    @foreach($record->customDeadlines as $customDeadline)
+                        <th>
+                            <h3>{{ $customDeadline->title.' (negative points)'  }}</h3>
+                        </th>
+                    @endforeach
                     <th>
                         <h3>Final</h3>
                     </th>
@@ -73,6 +78,11 @@
                             @foreach($record->valuationTerms as $valuationTerm)
                                 <td>
                                     {{ auth()->user()->valuationTermNegativePoints($valuationTerm, $record) }}
+                                </td>
+                            @endforeach
+                            @foreach($record->customDeadlines as $customDeadline)
+                                <td>
+                                    {{ auth()->user()->negativePointsFromCustomDeadline($customDeadline) }}
                                 </td>
                             @endforeach
                             <td>
@@ -97,6 +107,11 @@
                                 @foreach($record->valuationTerms as $valuationTerm)
                                     <td>
                                         {{ $student->valuationTermNegativePoints($valuationTerm, $record) }}
+                                    </td>
+                                @endforeach
+                                @foreach($record->customDeadlines as $customDeadline)
+                                    <td>
+                                        {{ $student->negativePointsFromCustomDeadline($customDeadline) }}
                                     </td>
                                 @endforeach
                                 <td>
