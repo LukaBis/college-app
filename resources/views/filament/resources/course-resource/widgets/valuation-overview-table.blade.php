@@ -50,7 +50,7 @@
                     </th>
                 @endforeach
                 <th>
-                    <h3>Final (without neg points for now)</h3>
+                    <h3>Final</h3>
                 </th>
             </tr>
             </thead>
