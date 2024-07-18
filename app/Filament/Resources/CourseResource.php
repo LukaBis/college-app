@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CourseResource\Pages;
 use App\Filament\Resources\CourseResource\RelationManagers;
 use App\Filament\Resources\CourseResource\RelationManagers\ProjectsRelationManager;
+use App\Filament\Resources\CourseResource\Widgets\CsvExportWidget;
 use App\Filament\Resources\CourseResource\Widgets\ValuationOverviewTable;
 use App\Models\Course;
 use Filament\Forms;
@@ -142,6 +143,7 @@ class CourseResource extends Resource
     {
         return [
             ValuationOverviewTable::class,
+            CsvExportWidget::class,
         ];
     }
 }
