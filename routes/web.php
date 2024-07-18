@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ValuationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,4 +25,7 @@ Route::get('login', function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/projects/{project}/users/{user}', [ProjectController::class, 'assignStudentToProject'])->name('assign-student-to-project');
+    //Route::get('/export-csv', [ValuationsController::class, 'csvExport'])->name('export.csv');
 });
+
+Route::get('/export-csv/{course}', [ValuationsController::class, 'csvExport'])->name('export.csv');
